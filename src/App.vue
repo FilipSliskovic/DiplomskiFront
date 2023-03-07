@@ -13,6 +13,13 @@
       <v-tab>
          Tabela
       </v-tab></router-link>
+
+      <router-link to="/Products">
+      <v-tab>
+        Products
+     </v-tab></router-link>
+
+
     </v-tabs>
       <!-- <HelloWorld/> -->
       <router-view></router-view>
