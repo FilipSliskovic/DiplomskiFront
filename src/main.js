@@ -6,6 +6,7 @@ import { createRouter,createWebHistory } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import Tabela from './components/Tabela.vue'
 import AllProducts from './components/Products/AllProducts.vue'
+import Login from './components/Login/Login.vue'
 
 const router = createRouter({
   history:createWebHistory(),
@@ -13,6 +14,7 @@ const router = createRouter({
     {path: '/Home', component: HelloWorld},
     {path: '/Tabela',component: Tabela},
     {path: '/Products',component: AllProducts},
+    {path: '/Login',component: Login},
   ]
 });
 
