@@ -7,6 +7,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import Tabela from './components/Tabela.vue'
 import AllProducts from './components/Products/AllProducts.vue'
 import Login from './components/Login/Login.vue'
+import store from './store/index.js'
 
 const router = createRouter({
   history:createWebHistory(),
@@ -23,4 +24,5 @@ loadFonts()
 createApp(App)
   .use(vuetify)
   .use(router)
+  .use(store)
   .mount('#app')
