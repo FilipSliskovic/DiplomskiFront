@@ -21,7 +21,7 @@ export default {
     var that = this;
     axios
       .get("http://localhost:5000/api/products", {
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { Authorization: "Bearer " + this.$store.getters.Token },
       })
       .then((response) => {
         that.products = response.data.data;

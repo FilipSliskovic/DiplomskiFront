@@ -5,7 +5,10 @@ import actions from './actions.js';
 export default {
     state() {
         return{
-            userId: 'asd'
+            UseCases: null,
+            UserId: null,
+            Username: null,
+            Token: null
         };
     },
     actions,

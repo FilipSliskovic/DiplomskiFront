@@ -1,24 +1,17 @@
 <template>
   <v-form>
     <v-container>
-
       <v-col offset="3" cols="5">
-        <v-text-field
-          v-model="formObj.username"
-          label="Email"
-          filled
-        ></v-text-field>
+        <v-text-field v-model="formObj.name" label="Name" filled></v-text-field>
       </v-col>
 
       <v-col offset="3" cols="5">
         <v-text-field
-          v-model="formObj.username"
-          label="Email"
+          v-model="formObj.lastname"
+          label="Lastname"
           filled
         ></v-text-field>
       </v-col>
-
-
 
       <v-col offset="3" cols="5">
         <v-text-field
@@ -36,7 +29,8 @@
           type="password"
         ></v-text-field>
 
-        <v-btn @click="logovanje" color="primary">
+        <!-- <v-btn  @click=" this.mode=='login'? this.$store.dispatch('login') : signup(null,formObj)" color="primary"> -->
+        <v-btn @click="submitForm">
           {{ submitButtonCaption }}
         </v-btn>
         <v-btn @click="switchMode">{{ switchModeButtonCaption }}</v-btn>
@@ -46,14 +40,17 @@
 </template>
 
 <script>
-import axios from "axios";
-import auth from "@/auth";
+// import axios from "axios";
+// import auth from "@/auth";
+// import actions from "@/store/modules/auth/actions";
 
 export default {
   name: "login-1",
 
   data: () => ({
     formObj: {
+      name: "Filip",
+      lastname: "Sliskovic",
       username: "Filip@mail.com",
       Password: "Lozinka123$",
     },
@@ -78,19 +75,19 @@ export default {
   },
 
   methods: {
-    logovanje() {
-      axios
-        .post("http://localhost:5000/api/token", this.formObj)
-        .then((response) => {
-          console.log(response.data.token);
-          localStorage.setItem("token", response.data.token);
+    
+    
 
-          var user = auth.parseJWT(response.data.token);
-          console.log(user);
-
-          this.$emit("Ulogovan", user);
-        });
+    submitForm() {
+      if (this.mode == "login") {
+        this.$store.dispatch("login", this.formObj);
+      } else {
+        this.$store.dispatch("signup", this.formObj);
+      }
     },
+
+    
+    logovanje() {},
     switchMode() {
       if (this.mode == "login") {
         this.mode = "signup";
