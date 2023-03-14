@@ -1,28 +1,34 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader'
-import { createRouter,createWebHistory } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import Tabela from './components/Tabela.vue'
-import AllProducts from './components/Products/AllProducts.vue'
-import Login from './components/Login/Login.vue'
-import store from './store/index.js'
+import { createApp } from "vue";
+import App from "./App.vue";
+import vuetify from "./plugins/vuetify";
+import { loadFonts } from "./plugins/webfontloader";
+import { createRouter, createWebHistory } from "vue-router";
+import HelloWorld from "./components/HelloWorld.vue";
+import Tabela from "./components/Tabela.vue";
+import AllProducts from "./components/Products/AllProducts.vue";
+import Login from "./components/Login/Login.vue";
+import store from "./store/index.js";
 
 const router = createRouter({
-  history:createWebHistory(),
+  history: createWebHistory(),
   routes: [
-    {path: '/Home', component: HelloWorld},
-    {path: '/Tabela',component: Tabela},
-    {path: '/Products',component: AllProducts},
-    {path: '/Login',component: Login},
-  ]
+    { path: "/Home", component: HelloWorld },
+    { path: "/Tabela", component: Tabela },
+    { path: "/Products", component: AllProducts, meta:{IsAuth: true} },
+    { path: "/Login", component: Login },
+  ],
 });
 
-loadFonts()
+router.beforeEach(function (to, _, next) {
+  if (to.meta.IsAuth && !store.getters.IsAuthenticated) {
+    next("/Login");
+  } else if (to.meta.notAuth && store.getters.IsAuthenticated) {
+    next("/Home");
+  } else {
+    next();
+  }
+});
 
-createApp(App)
-  .use(vuetify)
-  .use(router)
-  .use(store)
-  .mount('#app')
+loadFonts();
+
+createApp(App).use(vuetify).use(router).use(store).mount("#app");

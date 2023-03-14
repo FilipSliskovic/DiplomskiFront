@@ -34,6 +34,7 @@
           {{ submitButtonCaption }}
         </v-btn>
         <v-btn @click="switchMode">{{ switchModeButtonCaption }}</v-btn>
+        <v-btn @click="this.$store.dispatch('logout')">Logout</v-btn>
       </v-col>
     </v-container>
   </v-form>
@@ -79,15 +80,21 @@ export default {
     
 
     submitForm() {
-      if (this.mode == "login") {
+      try{
+        if (this.mode == "login") {
         this.$store.dispatch("login", this.formObj);
+        this.$router.replace("/home");
       } else {
         this.$store.dispatch("signup", this.formObj);
       }
+      }
+      catch(err){
+        alert(err.message)
+      }
+     
     },
 
     
-    logovanje() {},
     switchMode() {
       if (this.mode == "login") {
         this.mode = "signup";

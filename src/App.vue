@@ -26,9 +26,13 @@
 
 
     </v-tabs>
-      <!-- <HelloWorld/> -->
       <router-view></router-view>
     </v-main>
+
+    
+
+
+
   </v-app>
 </template>
 
@@ -44,6 +48,9 @@ export default {
 
   data: () => ({
     //
+   
+
+
   }),
 }
 </script>
@@ -51,8 +58,8 @@ export default {
 <style>
 
 a{
-  text-decoration: none;
   color: white;
+  text-decoration: none;
 }
 
 </style>
