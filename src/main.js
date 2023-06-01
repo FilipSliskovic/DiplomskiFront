@@ -7,6 +7,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 import Tabela from "./components/Tabela.vue";
 import AllProducts from "./components/Products/AllProducts.vue";
 import Login from "./components/Login/Login.vue";
+import Cafe from "./components/Cafes/Cafe.vue";
 import store from "./store/index.js";
 
 const router = createRouter({
@@ -16,6 +17,7 @@ const router = createRouter({
     { path: "/Tabela", component: Tabela },
     { path: "/Products", component: AllProducts, meta:{IsAuth: true} },
     { path: "/Login", component: Login },
+    { path: "/Cafe", component: Cafe, meta:{IsAuth: true} },
   ],
 });
 

@@ -34,7 +34,7 @@
           {{ submitButtonCaption }}
         </v-btn>
         <v-btn @click="switchMode">{{ switchModeButtonCaption }}</v-btn>
-        <v-btn @click="this.$store.dispatch('logout')">Logout</v-btn>
+        
       </v-col>
     </v-container>
   </v-form>
