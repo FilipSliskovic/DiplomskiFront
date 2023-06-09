@@ -4,7 +4,7 @@
         fixed-tabs
         bg-color="indigo-darken-2"
       >
-        <router-link to="/home"><v-tab>
+        <router-link to="/"><v-tab>
            Home 
           
         </v-tab></router-link>
@@ -23,11 +23,16 @@
           Cafes
        </v-tab></router-link>
 
+       <router-link to="/Admin">
+        <v-tab>
+          Admin
+       </v-tab></router-link>
+
        <router-link to="/Login">
         <v-tab v-if="!IsLoggedIn">
           Login
        </v-tab></router-link>
-       <router-link to="/home">
+       <router-link to="/">
         <v-tab v-if="IsLoggedIn" @click="this.$store.dispatch('logout')">Logout</v-tab>
        </router-link>
        

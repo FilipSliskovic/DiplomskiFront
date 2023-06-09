@@ -83,7 +83,7 @@ export default {
       try{
         if (this.mode == "login") {
         this.$store.dispatch("login", this.formObj);
-        this.$router.replace("/home");
+        this.$router.replace("/");
       } else {
         this.$store.dispatch("signup", this.formObj);
       }

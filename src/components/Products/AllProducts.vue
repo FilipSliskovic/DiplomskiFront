@@ -25,7 +25,7 @@ export default {
       })
       .then((response) => {
         that.products = response.data.data;
-        console.log(that.products);
+        // console.log(that.products);
       });
   },
 };

@@ -10,6 +10,11 @@ const store = createStore({
     modules: {
         auth: authModule
     },
+    // state(){
+    //     return{
+    //         Data:null
+    //     }
+    // },
     mutations,
     getters,
     actions

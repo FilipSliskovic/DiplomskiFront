@@ -16,7 +16,7 @@ export default {
 
       const u = JSON.parse(jsonPayload);
 
-      console.log(u);
+      // console.log(u);
       context.commit("setUser", { Token: response.data.token, u: u });
       //   localStorage.setItem("token", response.data.token);
 
