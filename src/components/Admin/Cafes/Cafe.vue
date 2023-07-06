@@ -1,7 +1,7 @@
 <template>
-    <AdminTable></AdminTable>
-    <h3>Cafe</h3>
     
+    <h3>Cafe</h3>
+    <AdminTable/>
 </template>
 <script>
 import AdminTable  from "@/components/Admin/Components/AdminTable.vue";

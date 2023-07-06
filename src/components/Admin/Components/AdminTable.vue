@@ -8,12 +8,15 @@
       :search="search"
       class="elevation-1"
       item-value="name"
+      
       @update:options="loadItems"
     ></v-data-table-server>
   </template>
 
 
   <script>
+import axios from 'axios'
+
   const desserts = [
     {
       name: 'Frozen Yogurt',
@@ -97,10 +100,38 @@
     },
   ]
 
+
+
+  // const FakeAPI = {
+  //   async fetch ({ page, itemsPerPage, sortBy }) {
+  //     return new Promise(resolve => {
+  //       setTimeout(() => {
+  //         const start = (page - 1) * itemsPerPage
+  //         const end = start + itemsPerPage
+  //         const items = desserts.slice()
+
+  //         if (sortBy.length) {
+  //           const sortKey = sortBy[0].key
+  //           const sortOrder = sortBy[0].order
+  //           items.sort((a, b) => {
+  //             const aValue = a[sortKey]
+  //             const bValue = b[sortKey]
+  //             return sortOrder === 'desc' ? bValue - aValue : aValue - bValue
+  //           })
+  //         }
+
+  //         const paginated = items.slice(start, end)
+
+  //         resolve({ items: paginated, total: items.length })
+  //       }, 500)
+  //     })
+  //   },
+  // }
+
   const FakeAPI = {
-    async fetch ({ page, itemsPerPage, sortBy }) {
-      return new Promise(resolve => {
-        setTimeout(() => {
+     fetch ({ page, itemsPerPage, sortBy }) {
+       
+       
           const start = (page - 1) * itemsPerPage
           const end = start + itemsPerPage
           const items = desserts.slice()
@@ -116,12 +147,10 @@
           }
 
           const paginated = items.slice(start, end)
-
-          resolve({ items: paginated, total: items.length })
-        }, 500)
-      })
-    },
-  }
+          return{items : paginated , total : items.length}
+      }
+    }
+  
 
   export default {
     data: () => ({
@@ -139,19 +168,47 @@
         { title: 'Protein (g)', key: 'protein', align: 'end' },
         { title: 'Iron (%)', key: 'iron', align: 'end' },
       ],
+      search: '',
       serverItems: [],
       loading: true,
       totalItems: 0,
+      cafes : []
     }),
+    mounted() {
+    this.getItems();
+  },
     methods: {
       loadItems ({ page, itemsPerPage, sortBy }) {
         this.loading = true
-        FakeAPI.fetch({ page, itemsPerPage, sortBy }).then(({ items, total }) => {
-          this.serverItems = items
-          this.totalItems = total
-          this.loading = false
-        })
+        // FakeAPI.fetch({ page, itemsPerPage, sortBy }).then(({ items, total }) => {
+        //   this.serverItems = items
+        //   this.totalItems = total
+        //   this.loading = false
+        // })
+        // var result = FakeAPI.fetch({ page, itemsPerPage, sortBy });
+        var cafe = this.getItems();
+        var result = FakeAPI.fetch({ page, itemsPerPage, sortBy }, cafe);
+        this.serverItems = result.items
+        this.totalItems = result.total
+        this.loading = false
       },
+
+
+
+
+
+      getItems()
+      {
+        var that = this;
+    axios
+      .get("http://localhost:5000/api/cafe", {
+        headers: { Authorization: "Bearer " + this.$store.getters.Token },
+      })
+      .then((response) => {
+        this.cafes = response.data.data;
+        console.log(that.cafes);
+      });
+      }
     },
   }
 </script>

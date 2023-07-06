@@ -13,7 +13,7 @@
                 <router-link class="adminNavLink" to="/Admin/Cafe"><v-list-item title="About" value="about"></v-list-item></router-link>
               </v-list>
             </v-navigation-drawer>
-            <v-main style="height: 250px"> <router-view></router-view> </v-main>
+            <v-main style="min-height: 250px"> <router-view></router-view> </v-main>
           </v-layout>
         </v-card>
         
