@@ -1,17 +1,17 @@
 <template>
-    <p>Products</p>
-    <BasicAdminTable v-if="products" :parentData='products' :ParItemsPerPage="itemsPerPage"/>
+    <p>Logs</p>
+    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage"/>
 </template>
 <script>
 import axios from 'axios';
 import BasicAdminTable from '../Components/BasicAdminTable.vue';
 export default{
-    name:"admin-products",
+    name:"admin-usecaselogs",
     components:{
         BasicAdminTable,
     },
     data: ()=> ({
-        products : null,
+        serverData : null,
         itemsPerPage: 0,
     }),
     mounted(){
@@ -22,13 +22,13 @@ export default{
       {
         var that = this;
         axios
-          .get("http://localhost:5000/api/products", {
+          .get("http://localhost:5000/api/usecaselogs?datefrom=2023-01-01&dateto=2023-08-02", {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {
-            that.products = response.data.data;
+            that.serverData = response.data;
             that.itemsPerPage = response.data.itemsPerPage;
-            console.log(that.products);
+            console.log(that.serverData);
           })
           .catch(error => {
           console.error(error);

@@ -11,6 +11,8 @@ import Cafe from "./components/Cafes/Cafe.vue";
 import Admin from "./components/Admin/AdminPanel.vue";
 import AdminCafe from "./components/Admin/Cafes/Cafe.vue";
 import AdminProduct from "./components/Admin/Products/Products.vue";
+import UseCaseLogs from "./components/Admin/UseCaseLogs/UseCaseLogs.vue";
+import AdminCategories from "./components/Admin/Categories/Categories.vue"
 import store from "./store/index.js";
 
 const router = createRouter({
@@ -22,8 +24,11 @@ const router = createRouter({
     { path: "/Login", component: Login },
     { path: "/Cafe", component: Cafe, meta:{IsAuth: true} },
     { path: "/Admin", component: Admin, children:[
-      {path: "Products", component: AdminProduct,},
-      {path: "Cafe", component: AdminCafe,}
+      {path: "Products", component: AdminProduct},
+      {path: "Categories", component: AdminCategories},
+
+      {path: "Cafe", component: AdminCafe,},
+      {path: "UseCaseLogs", component: UseCaseLogs},
     ] , meta:{IsAuth: true}},
     // { path: "/Admin/Products", component: AdminProduct, meta:{IsAuth: true} },
     // { path: "/Admin/Cafes", component: AdminCafe, meta:{IsAuth: true} },

@@ -1,12 +1,12 @@
 <template>
-    <p>Products</p>
+    <p>Categories</p>
     <BasicAdminTable v-if="products" :parentData='products' :ParItemsPerPage="itemsPerPage"/>
 </template>
 <script>
 import axios from 'axios';
 import BasicAdminTable from '../Components/BasicAdminTable.vue';
 export default{
-    name:"admin-products",
+    name:"admin-categories",
     components:{
         BasicAdminTable,
     },
@@ -22,7 +22,7 @@ export default{
       {
         var that = this;
         axios
-          .get("http://localhost:5000/api/products", {
+          .get("http://localhost:5000/api/categories", {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {
