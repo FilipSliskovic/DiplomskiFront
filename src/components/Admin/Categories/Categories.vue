@@ -22,7 +22,7 @@ export default{
       {
         var that = this;
         axios
-          .get("http://localhost:5000/api/categories", {
+          .get("http://localhost:5000/Categories", {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {
