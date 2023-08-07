@@ -1,5 +1,5 @@
 <template>
-    <p>Logs</p>
+    <p>CafeProducts</p>
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage"/>
 </template>
 <script>

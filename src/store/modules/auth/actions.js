@@ -18,6 +18,10 @@ export default {
 
       // console.log(u);
       context.commit("setUser", { Token: response.data.token, u: u });
+      localStorage.setItem('Token', response.data.token)
+      localStorage.setItem('UseCases', u.UseCases)
+      localStorage.setItem('UserId', u.UserId)
+      localStorage.setItem('Username', u.Username)
       //   localStorage.setItem("token", response.data.token);
 
       //   var user = auth.parseJWT(response.data.token);
@@ -36,7 +40,35 @@ export default {
         console.log(e.response.data.errors);
       });
   },
+
+  tryLogin(context)
+  {
+    const Token = localStorage.getItem('Token');
+    const UseCases = localStorage.getItem('UseCases');
+    const UserId = localStorage.getItem('UserId');
+    const Username = localStorage.getItem('Username');
+
+    if(Token && UseCases && UserId && Username)
+    {
+      context.commit('setUser',{
+        Token: Token,
+        u: 
+        {
+          UseCases : UseCases,
+          UserId :UserId,
+          Username: Username
+        },
+
+      })
+    }
+
+  },
+
   logout(context) {
+    localStorage.removeItem('Token');
+    localStorage.removeItem('UseCases');
+    localStorage.removeItem('UserId');
+    localStorage.removeItem('Username');
     context.commit('clearUser');
   },
 };

@@ -1,6 +1,6 @@
 <template>
-    <p>Logs</p>
-    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage"/>
+    <p>Shifts</p>
+    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :Url="Url"/>
 </template>
 <script>
 import axios from 'axios';
@@ -13,6 +13,7 @@ export default{
     data: ()=> ({
         serverData : null,
         itemsPerPage: 0,
+        Url: "http://localhost:5000/api/Shifts"
     }),
     mounted(){
         this.getData();
@@ -22,7 +23,7 @@ export default{
       {
         var that = this;
         axios
-          .get("http://localhost:5000/api/Shifts", {
+          .get(this.Url, {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {
