@@ -97,10 +97,10 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.Actions`]="{ item }">
-      <v-icon size="small" class="me-2" @click="editItem(item.raw)">
+      <v-icon v-if="this.setupProps.AllowUpdate" size="small" class="me-2" @click="editItem(item.raw)">
         mdi-pencil
       </v-icon>
-      <v-icon size="small" @click="deleteItem(item.raw)"> mdi-delete </v-icon>
+      <v-icon v-if="this.setupProps.AllowDelete" size="small" @click="deleteItem(item.raw)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize"> Reset </v-btn>
@@ -116,7 +116,7 @@ import axios from 'axios';
   export default {
     props:{
       ParItemsPerPage:null,
-      Url:null,
+      setupProps:null,
       parentData:{
         type:Object,
         required: true
@@ -189,7 +189,10 @@ import axios from 'axios';
             // console.log(h);
             header.push({title: h.toUpperCase(), align: 'start', key: h, sortable:true})
           }
-          header.push({title: "Actions", align: 'end', key: "Actions", sortable:false})
+          if (this.setupProps.AllowDelete || this.setupProps.AllowUpdate) {
+            header.push({title: "Actions", align: 'end', key: "Actions", sortable:false})
+          }
+          
         
         return header; 
       },
@@ -216,7 +219,7 @@ import axios from 'axios';
       deleteItemConfirm() {
 
         axios
-        .delete(this.Url + "/" + this.editedItem.id,{
+        .delete(this.setupProps.Url + "/" + this.editedItem.id,{
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
         .then(response=>{

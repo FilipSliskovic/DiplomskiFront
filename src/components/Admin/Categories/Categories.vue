@@ -1,6 +1,6 @@
 <template>
     <p>Categories</p>
-    <BasicAdminTable v-if="products" :parentData='products' :ParItemsPerPage="itemsPerPage"/>
+    <BasicAdminTable v-if="products" :parentData='products' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
 import axios from 'axios';
@@ -13,6 +13,12 @@ export default{
     data: ()=> ({
         products : null,
         itemsPerPage: 0,
+
+        setupProps : {
+          Url : "http://localhost:5000/Categories",
+          AllowDelete : true,
+          AllowUpdate : true
+        }
     }),
     mounted(){
         this.getData();
@@ -22,7 +28,7 @@ export default{
       {
         var that = this;
         axios
-          .get("http://localhost:5000/Categories", {
+          .get(this.setupProps.Url, {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {

@@ -1,6 +1,6 @@
 <template>
     <p>Logs</p>
-    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :Url='Url'/>
+    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps='setupProps'/>
 </template>
 <script>
 import axios from 'axios';
@@ -13,7 +13,12 @@ export default{
     data: ()=> ({
         serverData : null,
         itemsPerPage: 0,
-        Url : "http://localhost:5000/api/usecaselogs",
+        
+        setupProps : {
+          Url : "http://localhost:5000/api/usecaselogs",
+          AllowDelete : false,
+          AllowUpdate : false
+        }
     }),
     mounted(){
         this.getData();
@@ -23,7 +28,7 @@ export default{
       {
         var that = this;
         axios
-          .get(this.Url + "?datefrom=2023-01-01&dateto=2023-08-02", {
+          .get(this.setupProps.Url + "?datefrom=2023-01-01&dateto=2023-08-02", {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {

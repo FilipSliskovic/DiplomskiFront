@@ -1,6 +1,6 @@
 <template>
     <p>Users</p>
-    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage"/>
+    <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
 import axios from 'axios';
@@ -13,6 +13,14 @@ export default{
     data: ()=> ({
         serverData : null,
         itemsPerPage: 0,
+
+        setupProps : {
+          Url : "http://localhost:5000/api/Users",
+          AllowDelete : true,
+          AllowUpdate : true
+        }
+
+
     }),
     mounted(){
         this.getData();
@@ -22,7 +30,7 @@ export default{
       {
         var that = this;
         axios
-          .get("http://localhost:5000/api/Users", {
+          .get(this.setupProps.Url, {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
           .then((response) => {
