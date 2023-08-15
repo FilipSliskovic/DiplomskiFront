@@ -12,7 +12,7 @@
   
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>{{setupProps.formTitle}}</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
@@ -23,14 +23,21 @@
           </template>
           <v-card>
             <v-card-title>
-              <span class="text-h5">{{ formTitle }}</span>
+              <span class="text-h5">{{ setupProps.formTitle}}</span>
             </v-card-title>
 
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
+                  
+                   <v-col cols="12" sm="6" md="4" v-for="(value , propertyName) in editedItem" :key="propertyName.key">
+                    
                     <v-text-field
+                      v-model="editedItem[propertyName]"
+                      v-bind:label= propertyName>
+                    </v-text-field>
+                  </v-col>
+                    <!--<v-text-field
                       v-model="editedItem.name"
                       label="Dessert name"
                     ></v-text-field>
@@ -58,7 +65,7 @@
                       v-model="editedItem.protein"
                       label="Protein (g)"
                     ></v-text-field>
-                  </v-col>
+                  </v-col> -->
                 </v-row>
               </v-container>
             </v-card-text>
@@ -130,20 +137,8 @@ import axios from 'axios';
         dialog: false,
         dialogDelete: false,
         editedIndex: -1,
-        editedItem: {
-          name: '',
-          calories: 0,
-          fat: 0,
-          carbs: 0,
-          protein: 0,
-        },
-        defaultItem: {
-          name: '',
-          calories: 0,
-          fat: 0,
-          carbs: 0,
-          protein: 0,
-        },
+        editedItem: Object.assign(this.parentData[0]),
+        defaultItem: Object.assign(this.parentData[0]),
         dataItems : this.parentData,
 
 
@@ -198,14 +193,10 @@ import axios from 'axios';
       },
 
 
-
-
-
-
-
       editItem(item) {
         this.editedIndex = this.parentData.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        
         this.dialog = true
       },
 
@@ -228,7 +219,22 @@ import axios from 'axios';
           // alert("Deleted!")
         })
         .catch(error => {
-          alert(error)
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
         })
 
         
@@ -256,11 +262,76 @@ import axios from 'axios';
       },
 
       save() {
+        //update
         if (this.editedIndex > -1) {
+
+          axios
+        .put(this.setupProps.Url + "/" + this.editedItem.id,this.editedItem,{
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          })
+        .then(response=>{
+          console.log(response)
           Object.assign(this.dataItems[this.editedIndex], this.editedItem)
-        } else {
+          // alert("Deleted!")
+        })
+        .catch(error => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
+        })
+
+
+
+          
+        } 
+        //post
+        else {
+          
+          
+          axios
+        .post(this.setupProps.Url,this.editedItem,{
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          })
+        .then(response=>{
+          console.log(response)
           this.dataItems.push(this.editedItem)
+          // alert("Deleted!")
+        })
+        .catch(error => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
+        })
         }
+
+        console.log(this.editedItem);
+        
         this.close()
       },
     },
