@@ -32,7 +32,7 @@
                   
                    <v-col cols="12" sm="6" md="4" v-for="(value , propertyName) in editedItem" :key="propertyName.key">
                     
-                    <v-text-field
+                    <v-text-field v-if="propertyName != 'id' && propertyName != 'isActive'"
                       v-model="editedItem[propertyName]"
                       v-bind:label= propertyName>
                     </v-text-field>
@@ -266,7 +266,7 @@ import axios from 'axios';
         if (this.editedIndex > -1) {
 
           axios
-        .put(this.setupProps.Url + "/" + this.editedItem.id,this.editedItem,{
+        .patch(this.setupProps.Url + "/" + this.editedItem.id,this.editedItem,{
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
         .then(response=>{
@@ -338,6 +338,7 @@ import axios from 'axios';
 
 
     mounted(){
+
       // this.getHeaders(this.parentData);
     },
     // setup(props){

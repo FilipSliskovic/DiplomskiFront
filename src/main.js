@@ -27,7 +27,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: "/", component: HelloWorld },
-    { path: "/Tabela", component: Tabela },
+    { path: "/Tabela", component: Tabela},
     { path: "/Products", component: AllProducts, meta:{IsAuth: true} },
     { path: "/Login", component: Login },
     { path: "/Cafe", component: Cafe, meta:{IsAuth: true} },
@@ -42,7 +42,7 @@ const router = createRouter({
       {path: "Cafe", component: AdminCafe,},
       {path: "Users", component: Users,},
       {path: "WorkersCafe", component: WorkersCafe,},
-      {path: "SuperUsers", component: SuperUsers,},
+      {path: "SuperUsers", component: SuperUsers, meta:{IsSuperUser: true}},
       {path: "UseCaseLogs", component: UseCaseLogs},
     ] , meta:{IsAuth: true}},
     // { path: "/Admin/Products", component: AdminProduct, meta:{IsAuth: true} },
@@ -55,6 +55,9 @@ router.beforeEach(function (to, _, next) {
     next("/Login");
   } else if (to.meta.notAuth && store.getters.IsAuthenticated) {
     next("/");
+  } else if(to.meta.IsSuperUser && !store.getters.IsSuperUser)
+  {
+    next("404");
   } else {
     next();
   }
