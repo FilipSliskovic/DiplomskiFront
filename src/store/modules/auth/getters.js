@@ -4,7 +4,14 @@ export default {
   },
   IsSuperUser(state)
   {
-    return state.IsSuperUser;
+    if(state.IsSuperUser == "True")
+    {
+      return true
+    }
+    else
+    {
+      return false
+    }
   },
   Token(state) {
     return state.Token;

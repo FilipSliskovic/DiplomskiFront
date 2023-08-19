@@ -1,15 +1,33 @@
 <template>
-    Cafe
+    <v-container>
+      <v-row>
+        <v-col>
+          <h1 class="text-center" cols="12" align>Locations</h1>
+          <hr>
+          
+        </v-col>
+      </v-row>
+      <v-row>
+          <CafeCard
+          v-for="cafe in this.cafes" 
+          :key="cafe.id"
+          :cafe="cafe"
+          >
+          
+          </CafeCard>
+      </v-row>
+    </v-container>
   </template>
   <script>
   import axios from "axios";
+  import CafeCard from "./CafeCard.vue"
   export default {
     name:"Cafe-1",
     data: () => ({
         cafes: [],
     }),
     components: {
-     
+     CafeCard
     },
     mounted() {
     var that = this;

@@ -8,7 +8,8 @@ export default {
             UseCases: null,
             UserId: null,
             Username: null,
-            Token: null
+            Token: null,
+            IsSuperUser: false,
         };
     },
     actions,

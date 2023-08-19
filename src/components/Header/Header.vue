@@ -23,8 +23,8 @@
           Cafes
        </v-tab></router-link>
 
-       <router-link to="/Admin">
-        <v-tab>
+       <router-link to="/Admin" >
+        <v-tab v-if="IsSuperUser">
           Admin
        </v-tab></router-link>
 
@@ -36,9 +36,9 @@
         <v-tab v-if="IsLoggedIn" @click="this.$store.dispatch('logout')">Logout</v-tab>
        </router-link>
        
-  
+       
       </v-tabs>
-
+      
    
   </template>
   <script>
@@ -53,6 +53,9 @@
       return this.$store.getters.IsAuthenticated
 
     },
+    IsSuperUser(){
+      return this.$store.getters.IsSuperUser
+    }
   },
   };
   </script>

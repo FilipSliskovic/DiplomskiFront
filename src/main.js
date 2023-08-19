@@ -42,22 +42,23 @@ const router = createRouter({
       {path: "Cafe", component: AdminCafe,},
       {path: "Users", component: Users,},
       {path: "WorkersCafe", component: WorkersCafe,},
-      {path: "SuperUsers", component: SuperUsers, meta:{IsSuperUser: true}},
+      {path: "SuperUsers", component: SuperUsers},
       {path: "UseCaseLogs", component: UseCaseLogs},
-    ] , meta:{IsAuth: true}},
+    ] , meta:{IsSuperUser: true}},
     // { path: "/Admin/Products", component: AdminProduct, meta:{IsAuth: true} },
     // { path: "/Admin/Cafes", component: AdminCafe, meta:{IsAuth: true} },
   ],
 });
 
 router.beforeEach(function (to, _, next) {
+  
   if (to.meta.IsAuth && !store.getters.IsAuthenticated) {
     next("/Login");
   } else if (to.meta.notAuth && store.getters.IsAuthenticated) {
     next("/");
   } else if(to.meta.IsSuperUser && !store.getters.IsSuperUser)
   {
-    next("404");
+    next("/");
   } else {
     next();
   }

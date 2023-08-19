@@ -22,6 +22,7 @@ export default {
       localStorage.setItem('UseCases', u.UseCases)
       localStorage.setItem('UserId', u.UserId)
       localStorage.setItem('Username', u.Username)
+      localStorage.setItem('IsSuperUser',u.IsSuperUser)
       //   localStorage.setItem("token", response.data.token);
 
       //   var user = auth.parseJWT(response.data.token);
@@ -47,7 +48,7 @@ export default {
     const UseCases = localStorage.getItem('UseCases');
     const UserId = localStorage.getItem('UserId');
     const Username = localStorage.getItem('Username');
-
+    const IsSuperUser = localStorage.getItem('IsSuperUser')
     if(Token && UseCases && UserId && Username)
     {
       context.commit('setUser',{
@@ -56,7 +57,8 @@ export default {
         {
           UseCases : UseCases,
           UserId :UserId,
-          Username: Username
+          Username: Username,
+          IsSuperUser: IsSuperUser
         },
 
       })
@@ -69,6 +71,7 @@ export default {
     localStorage.removeItem('UseCases');
     localStorage.removeItem('UserId');
     localStorage.removeItem('Username');
+    localStorage.removeItem('IsSuperUser')
     context.commit('clearUser');
   },
 };
