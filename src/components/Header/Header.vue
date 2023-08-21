@@ -8,7 +8,7 @@
            Home 
           
         </v-tab></router-link>
-        <router-link to="/tabela">
+        <!-- <router-link to="/tabela">
         <v-tab>
            Tabela
         </v-tab></router-link>
@@ -16,11 +16,16 @@
         <router-link to="/Products">
         <v-tab>
           Products
-       </v-tab></router-link>
+       </v-tab></router-link> -->
   
        <router-link to="/Cafe">
         <v-tab>
           Cafes
+       </v-tab></router-link>
+
+       <router-link to="/Orders">
+        <v-tab v-if="IsSuperUser">
+          My Orders
        </v-tab></router-link>
 
        <router-link to="/Admin" >

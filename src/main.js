@@ -8,6 +8,7 @@ import Tabela from "./components/Tabela.vue";
 import AllProducts from "./components/Products/AllProducts.vue";
 import Login from "./components/Login/Login.vue";
 import Cafe from "./components/Cafes/Cafe.vue";
+import Orders from "./components/Orders/Orders.vue";
 import Admin from "./components/Admin/AdminPanel.vue";
 import AdminCafe from "./components/Admin/Cafes/Cafe.vue";
 import AdminProduct from "./components/Admin/Products/Products.vue";
@@ -15,7 +16,7 @@ import UseCaseLogs from "./components/Admin/UseCaseLogs/UseCaseLogs.vue";
 import AdminCategories from "./components/Admin/Categories/Categories.vue";
 import CafeProductOrder from "./components/Admin/CafeProductOrders/CafeProductOrders.vue"
 import CafeProducts from "./components/Admin/CafeProducts/CafeProducts.vue"
-import Orders from "./components/Admin/Orders/Orders.vue"
+import AdminOrders from "./components/Admin/Orders/Orders.vue"
 import Shifts from "./components/Admin/Shifts/Shifts.vue"
 import Tables from "./components/Admin/Tables/Tables.vue"
 import Users from "./components/Admin/Users/Users.vue"
@@ -30,13 +31,14 @@ const router = createRouter({
     { path: "/Tabela", component: Tabela},
     { path: "/Products", component: AllProducts, meta:{IsAuth: true} },
     { path: "/Login", component: Login },
-    { path: "/Cafe", component: Cafe, meta:{IsAuth: true} },
+    { path: "/Cafe", component: Cafe},
+    { path: "/Orders", component: Orders},
     { path: "/Admin", component: Admin, children:[
       {path: "Products", component: AdminProduct},
       {path: "Categories", component: AdminCategories},
       {path: "CafeProductOrder", component: CafeProductOrder},
       {path: "CafeProducts", component: CafeProducts},
-      {path: "Orders", component: Orders,},
+      {path: "Orders", component: AdminOrders,},
       {path: "Shifts", component: Shifts,},
       {path: "Tables", component: Tables,},
       {path: "Cafe", component: AdminCafe,},
