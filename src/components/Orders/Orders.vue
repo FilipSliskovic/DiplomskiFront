@@ -35,7 +35,7 @@
                   title="Create a new Order"
                 ></v-toolbar>
                 <v-select
-                  label="Select"
+                  label="Table"
                   :items=this.Tables
                   item-value="id"
                   item-title="name"
@@ -55,20 +55,11 @@
               </v-card>
             </template>
           </v-dialog>
-          <!-- <v-dialog
+          <v-dialog
             v-model="dialog"
             max-width="500px"
           >
-            <template v-slot:activator="{ props }">
-              <v-btn
-                color="primary"
-                dark
-                class="mb-2"
-                v-bind="props"
-              >
-                New Order
-              </v-btn>
-            </template>
+            
             <v-card>
               <v-card-title>
                 <span class="text-h5">{{ formTitle }}</span>
@@ -83,21 +74,25 @@
                       md="4"
                     >
                     <v-select
-                      label="Select"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                      
+                      label="Product"
+                      :items= this.CafeProducts
+                      item-value="id"
+                      item-title="productName"
+                      v-model="SelectedCafeProductId"
                     ></v-select>
-                    </v-col> -->
-                    <!--
+                    </v-col>
+                    
                     <v-col
                       cols="12"
                       sm="6"
                       md="4"
                     >
-                       <v-text-field
-                        v-model="editedItem.calories"
-                        label="Calories"
-                      ></v-text-field>
+                      <v-select
+                      label="Amount"
+                      :items= this.AmountOptions
+                      
+                      v-model="SelectedAmount"
+                    ></v-select>
                     </v-col>
                     <v-col
                       cols="12"
@@ -129,8 +124,8 @@
                         label="Protein (g)"
                       ></v-text-field>
                     </v-col> 
-                    -->
-                  <!-- </v-row>
+                    
+                  </v-row>
                 </v-container>
               </v-card-text>
   
@@ -152,7 +147,7 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
-          </v-dialog> -->
+          </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
               <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
@@ -170,7 +165,7 @@
         <v-icon
           size="small"
           class="me-2"
-          @click="editItem(item.raw)"
+          @click="getSingleOrder(item.raw)"
         >
           mdi-pencil
         </v-icon>
@@ -216,9 +211,16 @@
           protein: 0,
         },
         Orders : [],
+        SingleOrder : new Object,
+        CafeProducts : [],
         Tables : [],
         headers: [],
+        WorkerCafe : new Object,
         SelectedTable: 0,
+        AmountOptions: Array.from({length:16},(_,i) => i),
+        SelectedCafeProductId: 0,
+        SelectedAmount: 0,
+        SelectedOrderId: 0
       }),
   
       computed: {
@@ -253,7 +255,14 @@
           console.log(that.Orders);
         });
 
-        
+        axios
+        .get("http://localhost:5000/api/workerscafe?workerid=" + this.$store.getters.userId, {
+          headers: { Authorization: "Bearer " + this.$store.getters.Token },
+        })
+        .then((response) => {
+          that.WorkerCafe = response.data.data.slice(-1);
+          console.log(that.WorkerCafe[0].cafeName);
+        });
         
       },
 
@@ -289,7 +298,7 @@
           if(this.Orders)
           {
             axios
-            .get("http://localhost:5000/api/table?keyword=" + this.Orders[0].cafeName, {
+            .get("http://localhost:5000/api/table?keyword=" + this.WorkerCafe[0].cafeName, {
               headers: { Authorization: "Bearer " + this.$store.getters.Token },
             })
             .then((response) => {
@@ -342,6 +351,33 @@
 
 
         },
+
+        getSingleOrder(order)
+        {
+          this.SelectedOrderId = order.orderId
+          var that = this
+          
+            axios
+            .get("http://localhost:5000/api/orders/" + order.orderId, {
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+            .then((response) => {
+              that.SingleOrder = response.data.data;
+              // console.log(that.SingleOrder);
+            });
+
+
+            axios
+            .get("http://localhost:5000/api/cafeproducts?CafeName=" + order.cafeName, {
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+            .then((response) => {
+              that.CafeProducts = response.data.data;
+              console.log(that.CafeProducts);
+            });
+          
+          this.dialog = true
+        },
   
         editItem (item) {
           this.editedIndex = this.desserts.indexOf(item)
@@ -362,10 +398,6 @@
   
         close () {
           this.dialog = false
-          this.$nextTick(() => {
-            this.editedItem = Object.assign({}, this.defaultItem)
-            this.editedIndex = -1
-          })
         },
   
         closeDelete () {
@@ -377,11 +409,42 @@
         },
   
         save () {
-          if (this.editedIndex > -1) {
-            Object.assign(this.desserts[this.editedIndex], this.editedItem)
-          } else {
-            this.desserts.push(this.editedItem)
-          }
+          alert(this.SelectedCafeProductId + " " + this.SelectedAmount)
+          
+
+          axios
+          .post("http://localhost:5000/api/CafeProductOrders",{ cafeProductId:  this.SelectedCafeProductId,productamount : this.SelectedAmount, orderId : this.SelectedOrderId },{
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+          .then(response=>{
+            console.log(response)
+            
+             alert("Created!")
+          })
+          .catch(error => {
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          })
+
+
+
+
+
+
           this.close()
         },
       },
