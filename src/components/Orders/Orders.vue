@@ -57,7 +57,8 @@
           </v-dialog>
           <v-dialog
             v-model="dialog"
-            max-width="500px"
+            transition="dialog-top-transition"
+            max-width="950px"
           >
             
             <v-card>
@@ -65,6 +66,55 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
   
+
+              <v-card-text>
+                <v-container v-if="SingleOrder.length">
+                  
+                  <v-card 
+                  v-for="cafeProductOrder in SingleOrder" :key="cafeProductOrder.id"
+                  variant="outlined"
+                  >
+                  <v-row align="center">
+                    
+                      <v-col>
+                      <v-card-text>
+                        Name: {{cafeProductOrder.cafeProducts.productName}}
+                      </v-card-text>
+                      </v-col>
+                      <v-col>
+                      <v-card-text>
+                        Price per: {{cafeProductOrder.cafeProducts.price}}RSD
+                      </v-card-text>
+                      </v-col>  
+                      <v-col>
+                      <v-card-text>
+                        Amount: {{cafeProductOrder.amountOfProducts}}
+                      </v-card-text>
+                      </v-col>
+                      <v-col>
+                      <v-card-text>
+                        Total: {{cafeProductOrder.totalProductsPrice}}RSD
+                      </v-card-text>
+                    </v-col>
+                    <v-col>
+                      <v-btn
+                      rounded="xl"
+                      color="error"
+                      @click="deleteCafeProductOrder(cafeProductOrder.id)"
+                      >
+                      Delete
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  </v-card>
+                </v-container>
+                <v-container v-else>
+                  <v-card-text>
+                    This order doesnt have any products
+                  </v-card-text>
+                </v-container>
+              </v-card-text>
+
               <v-card-text>
                 <v-container>
                   <v-row>
@@ -98,33 +148,18 @@
                       cols="12"
                       sm="6"
                       md="4"
+                      
                     >
-                      <v-text-field
-                        v-model="editedItem.fat"
-                        label="Fat (g)"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <v-text-field
-                        v-model="editedItem.carbs"
-                        label="Carbs (g)"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <v-text-field
-                        v-model="editedItem.protein"
-                        label="Protein (g)"
-                      ></v-text-field>
-                    </v-col> 
+                    <v-btn
+                    color="teal-darken-4"
+                    variant="outlined"
                     
+                    :disabled="SelectedAmount === 0 || SelectedCafeProductId === 0"
+                    @click="save"
+                  >
+                    Add Order
+                  </v-btn>
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -132,18 +167,27 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="blue-darken-1"
-                  variant="text"
+                  color="error"
+                  variant="outlined"
                   @click="close"
+                  
                 >
                   Cancel
                 </v-btn>
+                
+
                 <v-btn
-                  color="blue-darken-1"
-                  variant="text"
+                  color="blue-accent-4"
+                  variant="elevated"
+                  elevation="8"
+                  :disabled="!SingleOrder.length"
                   @click="save"
                 >
-                  Save
+                  Checkout
+                  <!-- <v-tooltip
+                  activator="parent"
+                  location="top"
+                  >Must have products to checkout</v-tooltip> -->
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -211,7 +255,7 @@
           protein: 0,
         },
         Orders : [],
-        SingleOrder : new Object,
+        SingleOrder : [],
         CafeProducts : [],
         Tables : [],
         headers: [],
@@ -252,7 +296,7 @@
         .then((response) => {
           that.Orders = response.data.data;
           that.headers = this.getHeaders(that.Orders);
-          console.log(that.Orders);
+          //console.log(that.Orders);
         });
 
         axios
@@ -261,7 +305,7 @@
         })
         .then((response) => {
           that.WorkerCafe = response.data.data.slice(-1);
-          console.log(that.WorkerCafe[0].cafeName);
+          //console.log(that.WorkerCafe[0].cafeName);
         });
         
       },
@@ -303,7 +347,7 @@
             })
             .then((response) => {
               that.Tables = response.data.data;
-              console.log(that.Tables);
+              //console.log(that.Tables);
             });
           }
 
@@ -352,18 +396,19 @@
 
         },
 
-        getSingleOrder(order)
+         getSingleOrder(order)
         {
           this.SelectedOrderId = order.orderId
           var that = this
           
             axios
-            .get("http://localhost:5000/api/orders/" + order.orderId, {
+            .get("http://localhost:5000/api/CafeProductOrders?OrderId=" + order.orderId, {
               headers: { Authorization: "Bearer " + this.$store.getters.Token },
             })
             .then((response) => {
               that.SingleOrder = response.data.data;
-              // console.log(that.SingleOrder);
+              //console.log(that.SingleOrder);
+              
             });
 
 
@@ -373,10 +418,49 @@
             })
             .then((response) => {
               that.CafeProducts = response.data.data;
-              console.log(that.CafeProducts);
+              //console.log(that.CafeProducts);
+              
             });
           
-          this.dialog = true
+            this.dialog = true
+          
+        },
+
+        deleteCafeProductOrder(id)
+        {
+          
+          axios
+          .delete("http://localhost:5000/api/CafeProductOrders" + "/" + id,{
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+          .then(response=>{
+            console.log(response)
+            
+            alert("Deleted!")
+          })
+          .catch(error => {
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          })
+        },
+
+        checkout()
+        {
+          alert("checkout!")
         },
   
         editItem (item) {
