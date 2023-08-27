@@ -12,14 +12,79 @@
   
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>{{setupProps.formTitle}}</v-toolbar-title>
+        <v-col
+        cols="1"
+        >
+          <v-row
+          
+          >
+            
+            <v-toolbar-title
+            
+            >{{setupProps.formTitle}}</v-toolbar-title>
+            
+          </v-row>
+          
+        </v-col>
+        
+        <v-divider class="mx-4" inset vertical
+        v-if="setupProps.AllowSearch || setupProps.AllowDateSearch"
+        ></v-divider>
+        <!-- <v-spacer></v-spacer> -->
+        <v-col>
+          <v-row
+          align="center"
+          >
+              <v-text-field
+              v-if="setupProps.AllowSearch"
+              v-model="this.keyword"
+              clearable
+              density="comfortable"
+              placeholder="Enter a keyword"
+              variant="outlined"
+              label="Search..."
+              hide-details
+            ></v-text-field>
+            <v-label
+            v-if="setupProps.AllowDateSearch"
+            class="ml-5"
+            >Date from:</v-label>
+            <input type="date"
+            v-model="this.DateFrom"
+            v-if="setupProps.AllowDateSearch"
+            >
+            <v-label
+            class="ml-5"
+            v-if="setupProps.AllowDateSearch"
+            >Date to:</v-label>
+            <input type="date"
+            v-if="setupProps.AllowDateSearch"
+            v-model="this.DateTo"
+            class="ml-5"
+            >
+
+            <v-btn
+            v-if="setupProps.AllowSearch || setupProps.AllowDateSearch" 
+            variant="outlined"
+            @click="this.searchWithKeyword()"
+            class="ml-5"
+            >
+              Search
+            </v-btn>
+          </v-row>
+        </v-col>
         <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
-            <v-btn color="primary" dark class="mb-2" v-bind="props">
-              New Item
-            </v-btn>
+            <v-col cols="1" >
+              <v-row >
+                <v-btn color="primary" dark  v-bind="props">
+                  New Item
+                </v-btn>
+              </v-row>
+              
+            </v-col>
+            
           </template>
           <v-card>
             <v-card-title>
@@ -37,35 +102,7 @@
                       v-bind:label= propertyName>
                     </v-text-field>
                   </v-col>
-                    <!--<v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
-                  </v-col> -->
+                    
                 </v-row>
               </v-container>
             </v-card-text>
@@ -101,6 +138,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        
       </v-toolbar>
     </template>
     <template v-slot:[`item.Actions`]="{ item }">
@@ -110,7 +148,15 @@
       <v-icon v-if="this.setupProps.AllowDelete" size="small" @click="deleteItem(item.raw)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
+      <v-col>
+        <v-row>
+          <v-alert>
+            <v-alert-title>No data for search: '{{this.keyword}}'</v-alert-title>
+          </v-alert>
+          <v-btn color="primary" @click="initialize"> Reset </v-btn>
+        </v-row>
+      </v-col>
+      
     </template>
   
   
@@ -119,8 +165,9 @@
 
   <script>
 import axios from 'axios';
-
+import moment from 'moment'
   export default {
+    
     props:{
       ParItemsPerPage:null,
       setupProps:null,
@@ -145,10 +192,11 @@ import axios from 'axios';
 
 
 
-
+        DateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+        DateTo: moment().endOf('month').format('YYYY-MM-DD'),
         itemsPerPage: this.ParItemsPerPage,
         keys: Object.keys(this.parentData),
-        
+        keyword: "",
         // headers: [    
         //   {
         //     title: 'ID',
@@ -172,6 +220,40 @@ import axios from 'axios';
     },
     methods:
     {
+      initialize () {
+          this.keyword = new String()
+          this.DateTo = moment().endOf('month').format('YYYY-MM-DD');
+          this.DateFrom = moment().startOf('month').format('YYYY-MM-DD');
+          this.searchWithKeyword()
+        },
+      searchWithKeyword()
+      {
+        
+
+        axios
+          .get(this.setupProps.Url + "?datefrom="+this.DateFrom+"&dateto="+this.DateTo+"&keyword=" + this.keyword, {
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          })
+          .then((response) => {
+            if(this.setupProps.Url === "http://localhost:5000/api/usecaselogs")
+            {
+              this.dataItems = response.data;
+            }
+            else
+            {
+              this.dataItems = response.data.data;
+            }
+            
+            this.itemsPerPage = response.data.itemsPerPage;
+            console.log(response.data);
+          })
+          .catch(error => {
+          console.error(error);
+          });
+
+
+
+      },
       getHeaders(parentData)
       {
         var header = [];

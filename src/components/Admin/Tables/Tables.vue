@@ -1,5 +1,4 @@
 <template>
-    <p>Tables</p>
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
@@ -16,7 +15,10 @@ export default{
         setupProps : {
           Url : "http://localhost:5000/api/table",
           AllowDelete : true,
-          AllowUpdate : true
+          AllowUpdate : true,
+          AllowDateSearch: false,
+          AllowSearch: true,
+          formTitle : "Tables"
         }
     }),
     mounted(){

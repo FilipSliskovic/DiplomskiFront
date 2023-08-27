@@ -1,5 +1,4 @@
 <template>
-    
     <BasicAdminTable v-if="products" :parentData='products' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
@@ -18,6 +17,8 @@ export default{
           Url : "http://localhost:5000/api/products",
           AllowDelete : true,
           AllowUpdate : true,
+          AllowDateSearch: false,
+          AllowSearch: true,
           formTitle : "Products"
         }
     }),

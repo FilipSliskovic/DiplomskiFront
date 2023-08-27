@@ -181,7 +181,7 @@
                   variant="elevated"
                   elevation="8"
                   :disabled="!SingleOrder.length"
-                  @click="save"
+                  @click="checkout"
                 >
                   Checkout
                   <!-- <v-tooltip
@@ -215,7 +215,7 @@
         </v-icon>
         <v-icon
           size="small"
-          @click="deleteItem(item.raw)"
+          @click="deleteOrder(item.raw.orderId , 'Deleted')"
         >
           mdi-delete
         </v-icon>
@@ -288,25 +288,9 @@
   
       mounted()
       {
-        var that = this
-        axios
-        .get("http://localhost:5000/api/orders?workerid=" + this.$store.getters.userId, {
-          headers: { Authorization: "Bearer " + this.$store.getters.Token },
-        })
-        .then((response) => {
-          that.Orders = response.data.data;
-          that.headers = this.getHeaders(that.Orders);
-          //console.log(that.Orders);
-        });
+        this.getOrders()
 
-        axios
-        .get("http://localhost:5000/api/workerscafe?workerid=" + this.$store.getters.userId, {
-          headers: { Authorization: "Bearer " + this.$store.getters.Token },
-        })
-        .then((response) => {
-          that.WorkerCafe = response.data.data.slice(-1);
-          //console.log(that.WorkerCafe[0].cafeName);
-        });
+        this.getWorkersCafe()
         
       },
 
@@ -314,6 +298,36 @@
         
         initialize () {
           
+        },
+
+        getOrders()
+        {
+
+          var that = this
+          axios
+          .get("http://localhost:5000/api/orders?workerid=" + this.$store.getters.userId, {
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          })
+          .then((response) => {
+            that.Orders = response.data.data;
+            that.headers = this.getHeaders(that.Orders);
+            //console.log(that.Orders);
+          });
+
+        },
+
+        getWorkersCafe()
+        {
+          var that = this
+
+          axios
+          .get("http://localhost:5000/api/workerscafe?workerid=" + this.$store.getters.userId, {
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          })
+          .then((response) => {
+            that.WorkerCafe = response.data.data.slice(-1);
+            //console.log(that.WorkerCafe[0].cafeName);
+          });
         },
 
         getHeaders(parentData)
@@ -368,7 +382,7 @@
               })
             .then(response=>{
               console.log(response)
-              // this.dataItems.push(this.editedItem)
+              this.getOrders()
               alert("Created!")
             })
             .catch(error => {
@@ -398,18 +412,11 @@
 
          getSingleOrder(order)
         {
-          this.SelectedOrderId = order.orderId
-          var that = this
-          
-            axios
-            .get("http://localhost:5000/api/CafeProductOrders?OrderId=" + order.orderId, {
-              headers: { Authorization: "Bearer " + this.$store.getters.Token },
-            })
-            .then((response) => {
-              that.SingleOrder = response.data.data;
-              //console.log(that.SingleOrder);
-              
-            });
+          if(order !== undefined)
+          {
+            this.SelectedOrderId = order.orderId
+
+
 
 
             axios
@@ -421,6 +428,22 @@
               //console.log(that.CafeProducts);
               
             });
+          }
+          
+          var that = this
+          
+            axios
+            .get("http://localhost:5000/api/CafeProductOrders?OrderId=" + this.SelectedOrderId, {
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+            .then((response) => {
+              that.SingleOrder = response.data.data;
+              //console.log(that.SingleOrder);
+              
+            });
+
+
+            
           
             this.dialog = true
           
@@ -435,8 +458,39 @@
             })
           .then(response=>{
             console.log(response)
-            
-            alert("Deleted!")
+            this.getSingleOrder()
+            //alert("Deleted!")
+          })
+          .catch(error => {
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          })
+        },
+
+        deleteOrder(id, message)
+        {
+          axios
+          .delete("http://localhost:5000/api/Orders" + "/" + id,{
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+          .then(response=>{
+            console.log(response)
+            this.getOrders()
+            alert(message)
           })
           .catch(error => {
             if (error.response) {
@@ -460,7 +514,17 @@
 
         checkout()
         {
-          alert("checkout!")
+          axios
+            .get("http://localhost:5000/api/Orders/" + this.SelectedOrderId, {
+              headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            })
+            .then((response) => {
+              console.log(response.data);
+              //console.log(that.CafeProducts);
+              this.dialog = false
+            });
+            this.deleteOrder(this.SelectedOrderId,"Checked out!")
+            
         },
   
         editItem (item) {
@@ -493,8 +557,9 @@
         },
   
         save () {
-          alert(this.SelectedCafeProductId + " " + this.SelectedAmount)
+          //alert(this.SelectedCafeProductId + " " + this.SelectedAmount)
           
+          //var that = this
 
           axios
           .post("http://localhost:5000/api/CafeProductOrders",{ cafeProductId:  this.SelectedCafeProductId,productamount : this.SelectedAmount, orderId : this.SelectedOrderId },{
@@ -502,8 +567,8 @@
             })
           .then(response=>{
             console.log(response)
-            
-             alert("Created!")
+            this.getSingleOrder()
+            // alert(this.SelectedOrderId)
           })
           .catch(error => {
             if (error.response) {
@@ -529,7 +594,7 @@
 
 
 
-          this.close()
+          //this.close()
         },
       },
     }

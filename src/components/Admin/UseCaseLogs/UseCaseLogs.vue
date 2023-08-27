@@ -1,5 +1,4 @@
 <template>
-    <p>Logs</p>
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps='setupProps'/>
 </template>
 <script>
@@ -17,7 +16,10 @@ export default{
         setupProps : {
           Url : "http://localhost:5000/api/usecaselogs",
           AllowDelete : false,
-          AllowUpdate : false
+          AllowUpdate : false,
+          AllowDateSearch: true,
+          AllowSearch: false,
+          formTitle : "Use case Logs"
         }
     }),
     mounted(){

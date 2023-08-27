@@ -1,5 +1,4 @@
 <template>
-    <p>Shifts</p>
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
@@ -18,7 +17,10 @@ export default{
         setupProps : {
           Url : "http://localhost:5000/api/Shifts",
           AllowDelete : true,
-          AllowUpdate : true
+          AllowUpdate : true,
+          AllowDateSearch: false,
+          AllowSearch: true,
+          formTitle : "Shifts"
         }
         
     }),

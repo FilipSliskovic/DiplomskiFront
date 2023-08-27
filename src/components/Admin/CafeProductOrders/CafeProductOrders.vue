@@ -1,5 +1,4 @@
 <template>
-    <p>CafeProductOrders</p>
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
@@ -17,7 +16,10 @@ export default{
         setupProps : {
           Url : "http://localhost:5000/api/CafeProductOrders",
           AllowDelete : true,
-          AllowUpdate : false
+          AllowUpdate : false,
+          AllowDateSearch: false,
+          AllowSearch: true,
+          formTitle : "Cafe Product orders"
         }
 
     }),

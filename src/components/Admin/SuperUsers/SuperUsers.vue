@@ -1,5 +1,4 @@
 <template>
-    <p>SuperUsers</p>
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
@@ -17,7 +16,10 @@ export default{
         setupProps : {
           Url : "http://localhost:5000/api/SuperUsers",
           AllowDelete : false,
-          AllowUpdate : false
+          AllowUpdate : false,
+          AllowDateSearch: false,
+          AllowSearch: true,
+          formTitle : "SuperUsers"
         }
     }),
     mounted(){
