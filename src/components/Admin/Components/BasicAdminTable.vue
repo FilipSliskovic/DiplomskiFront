@@ -348,7 +348,7 @@ import moment from 'moment'
         if (this.editedIndex > -1) {
 
           axios
-        .patch(this.setupProps.Url + "/" + this.editedItem.id,this.editedItem,{
+        .put(this.setupProps.Url + "/" + this.editedItem.id,this.editedItem,{
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           })
         .then(response=>{

@@ -198,7 +198,7 @@
             widgets: false,
             menu:[],
             menuItem:{},
-            ImageRoot: "C:/Users/PC/Desktop/New folder/KaficiProjekat/KaficiProjekat.API/wwwroot/Images/",
+            ImageRoot: "http://localhost:5000/images/",
             asd : ".../"
         }),
         props: {
@@ -231,7 +231,7 @@
             },
             getImageURL(name)
             {
-                return new URL(`C:/Users/PC/Desktop/New folder/KaficiProjekat/KaficiProjekat.API/wwwroot/Images/${name}`,import.meta.url).href
+                return this.ImageRoot + name
             }
         },
         computed:{

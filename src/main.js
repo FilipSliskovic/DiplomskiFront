@@ -23,7 +23,7 @@ import Users from "./components/Admin/Users/Users.vue"
 import WorkersCafe from "./components/Admin/WorkersCafe/WorkersCafe.vue"
 import SuperUsers from "./components/Admin/SuperUsers/SuperUsers.vue"
 import store from "./store/index.js";
-import moment from 'moment'
+
 
 
 
@@ -72,4 +72,4 @@ router.beforeEach(function (to, _, next) {
 
 loadFonts();
 
-createApp(App).use(vuetify).use(router).use(store).use(moment).mount("#app");
+createApp(App).use(vuetify).use(router).use(store).mount("#app");
