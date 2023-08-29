@@ -232,6 +232,9 @@
   </template>
   <script>
   import axios from 'axios';
+  import jsPDF from 'jspdf';
+// import moment from 'moment';
+  // import moment from 'moment';
     export default {
         name: "Orders-1",
       data: () => ({
@@ -374,8 +377,10 @@
           {
             var Order = {
               tableId: tableId,
-              DateAndTime: new Date()
+              // DateAndTime: moment.utc().utcOffset(120)
             }
+
+            // console.log(Order)
             axios
             .post("http://localhost:5000/api/orders",Order,{
                 headers: { Authorization: "Bearer " + this.$store.getters.Token },
@@ -522,9 +527,67 @@
               console.log(response.data);
               //console.log(that.CafeProducts);
               this.dialog = false
+              this.createPDF(response.data)
+
+
             });
             this.deleteOrder(this.SelectedOrderId,"Checked out!")
             
+        },
+
+        createPDF(data)
+        {
+              // Create a new jsPDF instance
+          var doc = new jsPDF();
+
+          // Set the font size and style
+          doc.setFontSize(14);
+          doc.setFont("Arial","bold");
+
+          // Title
+          doc.text(data.cafeName, 105, 20, null, null, "center");
+
+          // Cafe address
+          doc.setFontSize(10);
+          doc.setFont("Arial","normal");
+          doc.text(data.cafeAdress, 105, 30, null, null, "center");
+
+          // Receipt details
+          doc.text("Order ID: " + data.orderId, 20, 50);
+          doc.text("Date & Time: " + data.dateAndTime, 20, 60);
+          doc.text("Waiter: " + data.konobar, 20, 70);
+          doc.text("Table: " + data.tableName, 20, 80);
+
+          // Table header
+          doc.setFontSize(12);
+          doc.setFont("Arial","bold");
+          doc.text("Product", 20, 100);
+          doc.text("Quantity", 100, 100);
+          doc.text("Price Per", 130, 100);
+          doc.text("Total", 160, 100);
+
+          // Table rows
+          doc.setFontSize(10);
+          doc.setFont("Arial","normal");
+          var y = 110;
+
+          data.cafeProductOrders.forEach(function (product) {
+            doc.text(product.productName, 20, y);
+            doc.text(product.productAmount.toString(), 100, y);
+            doc.text(product.productPricePer.toFixed(2), 130, y);
+            doc.text(product.productPriceTotal.toFixed(2), 160, y);
+
+          y += 10;
+          });
+
+          // Total
+          doc.setFontSize(12);
+          doc.setFont("Arial","bold");
+          doc.text("Total", 130, y);
+          doc.text(data.totalOrderPrice.toFixed(2), 160, y);
+
+          // Save the PDF with a specific name
+          doc.save("cafe_receipt"+data.orderId+".pdf");
         },
   
         editItem (item) {
