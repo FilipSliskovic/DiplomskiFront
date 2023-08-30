@@ -231,7 +231,7 @@
     </v-data-table>
   </template>
   <script>
-  import axios from 'axios';
+  import axios from '@/axios';
   import jsPDF from 'jspdf';
 // import moment from 'moment';
   // import moment from 'moment';
@@ -388,7 +388,7 @@
             .then(response=>{
               console.log(response)
               this.getOrders()
-              alert("Created!")
+             // alert("Created!")
             })
             .catch(error => {
               if (error.response) {

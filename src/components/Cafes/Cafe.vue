@@ -19,7 +19,7 @@
     </v-container>
   </template>
   <script>
-  import axios from "axios";
+  import axios from "@/axios";
   import CafeCard from "./CafeCard.vue"
   export default {
     name:"Cafe-1",

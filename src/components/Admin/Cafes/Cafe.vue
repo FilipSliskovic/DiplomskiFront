@@ -2,7 +2,7 @@
     <BasicAdminTable v-if="products" :parentData='products' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
-import axios from 'axios';
+import axios from '@/axios';
 import BasicAdminTable from '../Components/BasicAdminTable.vue';
 export default{
     name:"admin-cafe",
@@ -14,7 +14,7 @@ export default{
         itemsPerPage: 0,
 
         setupProps : {
-          Url : "http://localhost:5000/api/cafe",
+          Url : "/api/cafe",
           AllowDelete : true,
           AllowUpdate : true,
           AllowDateSearch: false,

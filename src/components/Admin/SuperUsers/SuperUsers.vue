@@ -2,7 +2,7 @@
     <BasicAdminTable v-if="serverData" :parentData='serverData' :ParItemsPerPage="itemsPerPage" :setupProps="setupProps"/>
 </template>
 <script>
-import axios from 'axios';
+import axios from '@/axios';
 import BasicAdminTable from '../Components/BasicAdminTable.vue';
 export default{
     name:"admin-SuperUsers",
