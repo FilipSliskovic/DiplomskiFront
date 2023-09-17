@@ -82,54 +82,49 @@
         <h3>About us</h3>
         <h2>Sve pocinje od sna</h2>
         <p>
-          Guided by the vision to meet tradition and 
-          innovation and create the unique pleasure of 
-          drinking one of the most popular beverages in the Balkans,
-          our dream of coffee was born. Coffee that unites and erases 
-          all the cultural barriers of the world. Coffee that conquers 
-          the palate of experienced coffee drinkers and connoisseurs. Coffee to remember
+          Guided by the vision to meet tradition and innovation and create the
+          unique pleasure of drinking one of the most popular beverages in the
+          Balkans, our dream of coffee was born. Coffee that unites and erases
+          all the cultural barriers of the world. Coffee that conquers the
+          palate of experienced coffee drinkers and connoisseurs. Coffee to
+          remember
         </p>
       </v-col>
       <v-col>
         <v-row justify="space-between">
-          <v-card 
-          v-for="card in cardData" :key="card" 
-          class="text-white"
-          
-          >
-              <div class="imageGradient-overlay-container">
-                <v-img
-                  class="imageGradient"
-                  cover
-                  :width="400"
-                  :src="require(`@/assets/Images/${card.cardImg}`)"
-                >
-                  <!-- Gradient overlay -->
-                  <div class="imageGradient-overlay"></div>
-                  
-                  <!-- Card content -->
-                  <div class="card-content">
-                    <v-card-title class="text-white">
-                      {{ card.cardTitle }}
-                    </v-card-title>
-                    
-                    <v-card-text class="text-white">
-                      {{ card.cardText }}
-                    </v-card-text>
-                    <hr class="cardHR">
-                    <router-link :to="card.cardLink">
-                      <v-btn class="ml-4 mt-8" variant="outlined">{{ card.cardTitle }}</v-btn>
-                    </router-link>
-                  </div>
-                </v-img>
-              </div>
-            
+          <v-card v-for="card in cardData" :key="card" class="text-white">
+            <div class="imageGradient-overlay-container">
+              <v-img
+                class="imageGradient"
+                cover
+                :width="400"
+                :src="require(`@/assets/Images/${card.cardImg}`)"
+              >
+                <!-- Gradient overlay -->
+                <div class="imageGradient-overlay"></div>
+
+                <!-- Card content -->
+                <div class="card-content">
+                  <v-card-title class="text-white">
+                    {{ card.cardTitle }}
+                  </v-card-title>
+
+                  <v-card-text class="text-white">
+                    {{ card.cardText }}
+                  </v-card-text>
+                  <hr class="cardHR" />
+                  <router-link :to="card.cardLink">
+                    <v-btn class="ml-4 mt-8" variant="outlined">{{
+                      card.cardTitle
+                    }}</v-btn>
+                  </router-link>
+                </div>
+              </v-img>
+            </div>
           </v-card>
         </v-row>
-        
       </v-col>
     </v-row>
-      
   </v-container>
 </template>
 
@@ -138,32 +133,32 @@ export default {
   name: "HelloWorld",
 
   data: () => ({
-    cardData:[
+    cardData: [
       {
         cardTitle: "Locations",
         cardImg: "HomeImageWork.jpg",
         cardText: "Find our locations",
-        cardLink: "/Cafe"
+        cardLink: "/Cafe",
       },
       {
         cardTitle: "Locations",
         cardImg: "HomeImageWork.jpg",
         cardText: "Find our locations",
-        cardLink: "/Cafe"
+        cardLink: "/Cafe",
       },
       {
         cardTitle: "Locations",
         cardImg: "HomeImageWork.jpg",
         cardText: "Find our locations",
-        cardLink: "/Cafe"
+        cardLink: "/Cafe",
       },
       {
         cardTitle: "Locations",
         cardImg: "HomeImageWork.jpg",
         cardText: "Find our locations",
-        cardLink: "/Cafe"
+        cardLink: "/Cafe",
       },
-    ],  
+    ],
     ecosystem: [
       {
         text: "vuetify-loader",
@@ -211,12 +206,11 @@ export default {
       },
     ],
   }),
-  methods:{
-    getImageSrc(img)
-    {
-      return "@/assets/Images/" + img
-    }
-  }
+  methods: {
+    getImageSrc(img) {
+      return "@/assets/Images/" + img;
+    },
+  },
 };
 </script>
 
@@ -252,7 +246,7 @@ export default {
   text-align: left;
 }
 
-.cardHR{
+.cardHR {
   height: 3px;
   color: white;
   width: 40%;
