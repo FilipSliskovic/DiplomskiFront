@@ -77,6 +77,7 @@
         v-for="reservation in this.Reservations"
         :key="reservation.id"
         :reservation="reservation"
+        @refreshReservations="GetReservations"
       >
       </ReservationCard>
     </v-row>
