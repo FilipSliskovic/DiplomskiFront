@@ -77,7 +77,10 @@
         v-for="reservation in this.Reservations"
         :key="reservation.id"
         :reservation="reservation"
+        :Cafes="Cafes"
+        :Tables="Tables"
         @refreshReservations="GetReservations"
+        @GetNewReservationData="GetNewReservationData"
       >
       </ReservationCard>
     </v-row>
@@ -112,6 +115,7 @@ export default {
       );
     },
   },
+
   methods: {
     GetReservations() {
       var that = this;
