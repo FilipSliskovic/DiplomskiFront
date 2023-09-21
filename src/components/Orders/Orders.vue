@@ -311,7 +311,7 @@ export default {
         )
         .then((response) => {
           that.WorkerCafe = response.data.data.slice(-1);
-          //console.log(that.WorkerCafe[0].cafeName);
+          console.log(that.WorkerCafe[0].cafeName);
         });
     },
 
