@@ -4,28 +4,49 @@
     :parentData="products"
     :ParItemsPerPage="itemsPerPage"
     :setupProps="setupProps"
+    @CreateNewItem="this.CreateNewProduct"
+    @UpdateItem="this.UpdateProduct"
+    @GetUpdateItem="this.GetUpdateItem"
   >
     <template #newItemSlot>
-      <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              v-for="(value, propertyName) in editedItem"
-              :key="propertyName.key"
-            >
-              <v-text-field
-                v-if="propertyName != 'id' && propertyName != 'isActive'"
-                v-model="editedItem[propertyName]"
-                v-bind:label="propertyName"
-              >
-              </v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-text>
+      <v-col cols="12" sm="8" md="6">
+        <v-text-field v-model="NewProduct.name" label="Name"> </v-text-field>
+      </v-col>
+
+      <v-col cols="12" sm="8" md="6">
+        <v-text-field v-model="NewProduct.description" label="Description">
+        </v-text-field>
+      </v-col>
+
+      <v-col cols="12" sm="8" md="6">
+        <v-text-field v-model="NewProduct.price" label="Price"> </v-text-field>
+      </v-col>
+
+      <v-col cols="12" sm="8" md="6">
+        <v-text-field v-model="NewProduct.amount" label="Amount (ml)">
+        </v-text-field>
+      </v-col>
+
+      <!-- <v-col cols="12" sm="8" md="6">
+        <v-file-input
+          accept="image/png, image/jpeg, image/bmp"
+          placeholder="Upload images for product"
+          prepend-icon="mdi-camera"
+          label="Images"
+          multiple
+          v-model="NewProduct.image"
+        ></v-file-input>
+      </v-col> -->
+
+      <v-col cols="12" sm="7" md="5">
+        <v-select
+          label="Cafe"
+          :items="this.Categories"
+          item-value="id"
+          item-title="name"
+          v-model="NewProduct.CategoryId"
+        ></v-select>
+      </v-col>
     </template>
   </BasicAdminTable>
 </template>
@@ -40,11 +61,15 @@ export default {
   data: () => ({
     products: null,
     itemsPerPage: 0,
+    NewProduct: {
+      CategoryId: null,
+    },
+    Categories: null,
 
     setupProps: {
       Url: "http://localhost:5000/api/products",
       AllowDelete: true,
-      AllowUpdate: true,
+      AllowUpdate: false,
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "Products",
@@ -52,6 +77,7 @@ export default {
   }),
   mounted() {
     this.getData();
+    this.getCategories();
   },
   methods: {
     getData() {
@@ -68,6 +94,89 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    getCategories() {
+      var that = this;
+      axios
+        .get("/categories", {
+          headers: { Authorization: "Bearer " + this.$store.getters.Token },
+        })
+        .then((response) => {
+          that.Categories = response.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    CreateNewProduct() {
+      // console.log(this.NewProduct);
+
+      axios
+        .post("/api/products", this.NewProduct, {
+          headers: { Authorization: "Bearer " + this.$store.getters.Token },
+        })
+        .then((response) => {
+          console.log(response);
+          this.getData();
+        })
+        .catch((error) => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
+    },
+    UpdateProduct() {
+      axios
+        .put(
+          "/api/table",
+          {
+            name: this.ItemToUpdate.name,
+            id: this.ItemToUpdate.id,
+            seats: this.ItemToUpdate.seats,
+          },
+          {
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          this.getData();
+        })
+        .catch((error) => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
+    },
+    GetUpdateItem(item) {
+      this.ItemToUpdate = item;
+      console.log(item);
     },
   },
 };
