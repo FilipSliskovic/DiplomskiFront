@@ -40,7 +40,7 @@
 
       <v-col cols="12" sm="7" md="5">
         <v-select
-          label="Cafe"
+          label="Category"
           :items="this.Categories"
           item-value="id"
           item-title="name"
