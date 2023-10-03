@@ -73,6 +73,7 @@ export default {
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "Products",
+      AllowCreate: true,
     },
   }),
   mounted() {

@@ -51,6 +51,7 @@ export default {
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "Cafes",
+      AllowCreate: true,
     },
   }),
   mounted() {

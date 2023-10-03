@@ -67,6 +67,7 @@ export default {
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "SuperUsers",
+      AllowCreate: true,
     },
   }),
   mounted() {

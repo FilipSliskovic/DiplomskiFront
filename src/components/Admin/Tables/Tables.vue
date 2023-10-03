@@ -65,6 +65,7 @@ export default {
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "Tables",
+      AllowCreate: true,
     },
     Cafes: [],
     selectedCafe: 0,

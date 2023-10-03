@@ -38,6 +38,8 @@ export default {
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "Cafe Product orders",
+
+      AllowCreate: true,
     },
   }),
   mounted() {

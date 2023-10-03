@@ -44,6 +44,7 @@ export default {
       AllowDateSearch: false,
       AllowSearch: true,
       formTitle: "Shifts",
+      AllowCreate: true,
     },
   }),
   mounted() {
