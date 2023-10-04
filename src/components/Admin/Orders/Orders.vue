@@ -41,7 +41,27 @@ export default {
         .then((response) => {
           that.serverData = response.data.data;
           that.itemsPerPage = response.data.itemsPerPage;
-          console.log(that.serverData);
+          //console.log(that.serverData);
+
+          that.serverData = that.serverData.map((order) => {
+            const date = new Date(order.dateAndTime);
+            // console.log(date);
+            const options = {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              //timeZoneName: "short",
+            };
+
+            const formattedDate = date.toLocaleString("sr-RS", options);
+
+            return { ...order, dateAndTime: formattedDate };
+          });
+
+          // console.log(formattedOrders);
         })
         .catch((error) => {
           console.error(error);

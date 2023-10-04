@@ -33,6 +33,22 @@
         ></v-file-input>
       </v-col> -->
     </template>
+    <template #UpdateItemSlot>
+      <v-col cols="12" sm="8" md="6">
+        <v-text-field v-model="ItemToUpdate.name" label="Name" type="text">
+        </v-text-field>
+      </v-col>
+
+      <v-col cols="12" sm="8" md="6">
+        <v-select
+          label="Parent"
+          :items="this.products"
+          item-value="id"
+          item-title="name"
+          v-model="ItemToUpdate.ParentCategoryId"
+        ></v-select>
+      </v-col>
+    </template>
   </BasicAdminTable>
 </template>
 <script>
@@ -46,6 +62,7 @@ export default {
   data: () => ({
     products: null,
     itemsPerPage: 0,
+    ItemToUpdate: null,
     newCategory: {
       categoryName: null,
       ParentCategoryId: null,
@@ -124,13 +141,14 @@ export default {
         });
     },
     UpdateCategory() {
+      // console.log(this.ItemToUpdate);
       axios
         .put(
           "/categories",
           {
             Name: this.ItemToUpdate.name,
             id: this.ItemToUpdate.id,
-            seats: this.ItemToUpdate.seats,
+            seats: this.ItemToUpdate.ParentCategoryId,
           },
           {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
