@@ -189,6 +189,17 @@
         </v-dialog>
       </v-toolbar>
     </template>
+
+    <template v-slot:[`item.imageNames`]="{ item }">
+      <img
+        v-for="img in item.raw.imageNames"
+        :key="img"
+        :width="150"
+        :src="'http://localhost:5000/images/' + img"
+        alt="image of a product"
+      />
+    </template>
+
     <template v-slot:[`item.Actions`]="{ item }">
       <v-icon
         v-if="this.setupProps.AllowUpdate"

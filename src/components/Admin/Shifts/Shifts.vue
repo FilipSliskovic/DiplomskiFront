@@ -58,7 +58,11 @@ export default {
           headers: { Authorization: "Bearer " + this.$store.getters.Token },
         })
         .then((response) => {
-          that.serverData = response.data.data;
+          const updatedItems = response.data.data.map((item) => {
+            item.isActive = item.isActive ? "Active" : "Not Active";
+            return item;
+          });
+          that.serverData = updatedItems;
           that.itemsPerPage = response.data.itemsPerPage;
           console.log(that.serverData);
         })

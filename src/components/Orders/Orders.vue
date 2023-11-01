@@ -294,6 +294,23 @@ export default {
         .then((response) => {
           that.Orders = response.data.data;
           that.headers = this.getHeaders(that.Orders);
+          that.Orders = that.Orders.map((order) => {
+            const date = new Date(order.dateAndTime);
+            // console.log(date);
+            const options = {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              //timeZoneName: "short",
+            };
+
+            const formattedDate = date.toLocaleString("sr-RS", options);
+
+            return { ...order, dateAndTime: formattedDate };
+          });
           //console.log(that.Orders);
         });
     },

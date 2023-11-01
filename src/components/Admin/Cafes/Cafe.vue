@@ -5,7 +5,7 @@
     :ParItemsPerPage="itemsPerPage"
     :setupProps="setupProps"
     @CreateNewItem="this.CreateNewCafe"
-    @UpdateItem="this.UpdateShift"
+    @UpdateItem="this.UpdateCafe"
     @GetUpdateItem="this.GetUpdateItem"
   >
     <template #newItemSlot>
@@ -65,7 +65,11 @@ export default {
           headers: { Authorization: "Bearer " + this.$store.getters.Token },
         })
         .then((response) => {
-          that.products = response.data.data;
+          const updatedItems = response.data.data.map((item) => {
+            item.isActive = item.isActive ? "Active" : "Not Active";
+            return item;
+          });
+          that.products = updatedItems;
           that.itemsPerPage = response.data.itemsPerPage;
           console.log(that.products);
         })
@@ -110,6 +114,46 @@ export default {
           }
           console.log(error.config);
         });
+    },
+    UpdateCafe() {
+      axios
+        .put(
+          "/api/cafe",
+          {
+            name: this.ItemToUpdate.name,
+            id: this.ItemToUpdate.id,
+            seats: this.ItemToUpdate.seats,
+          },
+          {
+            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          this.getData();
+        })
+        .catch((error) => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
+    },
+    GetUpdateItem(item) {
+      this.ItemToUpdate = item;
+      console.log(item);
     },
   },
 };
