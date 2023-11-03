@@ -92,7 +92,7 @@
       </v-col>
       <v-col>
         <v-row justify="space-between">
-          <v-card v-for="card in cardData" :key="card" class="text-white">
+          <v-card v-for="card in cardData" :key="card" class="text-white mt-4">
             <div class="imageGradient-overlay-container">
               <v-img
                 class="imageGradient"

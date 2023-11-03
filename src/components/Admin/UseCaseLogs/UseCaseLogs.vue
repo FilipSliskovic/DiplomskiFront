@@ -35,7 +35,7 @@ export default {
     getData() {
       var that = this;
       axios
-        .get(this.setupProps.Url + "?datefrom=2023-09-01&dateto=2023-11-01", {
+        .get(this.setupProps.Url + "?datefrom=2023-11-01&dateto=2024-01-01", {
           headers: { Authorization: "Bearer " + this.$store.getters.Token },
         })
         .then((response) => {

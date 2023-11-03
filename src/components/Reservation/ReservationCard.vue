@@ -63,7 +63,7 @@
         <v-select
           label="Table"
           :items="this.filteredTables"
-          item-title="name"
+          item-title="NameSeats"
           v-model="SelectedTable"
           return-object
         >
@@ -111,7 +111,10 @@ export default {
       }
       return this.Tables.filter(
         (table) => table.cafeName === this.SelectedCafe.name
-      );
+      ).map((table) => ({
+        ...table,
+        NameSeats: `Name: ${table.name}, Seats: ${table.seats}`,
+      }));
     },
   },
   methods: {

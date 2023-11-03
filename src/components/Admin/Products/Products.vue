@@ -27,16 +27,16 @@
         </v-text-field>
       </v-col>
 
-      <!-- <v-col cols="12" sm="8" md="6">
+      <v-col cols="12" sm="8" md="6">
         <v-file-input
           accept="image/png, image/jpeg, image/bmp"
           placeholder="Upload images for product"
           prepend-icon="mdi-camera"
           label="Images"
           multiple
-          v-model="NewProduct.image"
+          v-model="NewProduct.Image"
         ></v-file-input>
-      </v-col> -->
+      </v-col>
 
       <v-col cols="12" sm="7" md="5">
         <v-select
@@ -114,7 +114,10 @@ export default {
 
       axios
         .post("/api/products", this.NewProduct, {
-          headers: { Authorization: "Bearer " + this.$store.getters.Token },
+          headers: {
+            Authorization: "Bearer " + this.$store.getters.Token,
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((response) => {
           console.log(response);

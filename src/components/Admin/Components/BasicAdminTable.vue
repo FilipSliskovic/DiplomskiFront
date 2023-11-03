@@ -84,7 +84,7 @@
               <span class="text-h5">{{ setupProps.formTitle }}</span>
             </v-card-title>
 
-            <v-card-text>
+            <!-- <v-card-text>
               <v-container>
                 <v-row>
                   <v-col
@@ -103,7 +103,7 @@
                   </v-col>
                 </v-row>
               </v-container>
-            </v-card-text>
+            </v-card-text> -->
             <v-card-text>
               <v-container>
                 <v-row>

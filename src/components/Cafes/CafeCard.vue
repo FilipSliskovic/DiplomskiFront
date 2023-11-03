@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" min-width="300" max-width="300">
+  <v-card class="mx-auto mt-4" min-width="300" max-width="300">
     <div>
       <iframe
         class="gmap_iframe"

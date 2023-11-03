@@ -10,7 +10,7 @@
   >
     <template #newItemSlot>
       <v-col cols="12" sm="8" md="6">
-        <v-text-field v-model="tableName"> </v-text-field>
+        <v-text-field v-model="tableName" label="Name"> </v-text-field>
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
@@ -20,6 +20,14 @@
           item-value="id"
           item-title="name"
           v-model="selectedCafe"
+        ></v-select>
+      </v-col>
+
+      <v-col cols="12" sm="8" md="6">
+        <v-select
+          label="Seats"
+          :items="this.SeatsOptions"
+          v-model="this.SelectedSeats"
         ></v-select>
       </v-col>
     </template>
@@ -108,7 +116,11 @@ export default {
       axios
         .post(
           "/api/table",
-          { name: this.tableName, cafeId: this.selectedCafe },
+          {
+            name: this.tableName,
+            cafeId: this.selectedCafe,
+            seats: this.SelectedSeats,
+          },
           {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },
           }
