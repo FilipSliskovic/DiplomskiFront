@@ -200,6 +200,10 @@
       />
     </template>
 
+    <template v-slot:[`item.cafeProducts`]="{ item }">
+      <p>{{ item.raw.cafeProducts.productName }}</p>
+    </template>
+
     <template v-slot:[`item.Actions`]="{ item }">
       <v-icon
         v-if="this.setupProps.AllowUpdate"

@@ -33,13 +33,13 @@ export default {
 
     setupProps: {
       Url: "http://localhost:5000/api/CafeProductOrders",
-      AllowDelete: true,
+      AllowDelete: false,
       AllowUpdate: false,
-      AllowDateSearch: false,
+      AllowDateSearch: true,
       AllowSearch: true,
       formTitle: "Cafe Product orders",
 
-      AllowCreate: true,
+      AllowCreate: false,
     },
   }),
   mounted() {
