@@ -42,6 +42,9 @@
           <router-link class="adminNavLink" to="/Admin/SuperUsers"
             ><v-list-item title="SuperUsers" value="SuperUsers"></v-list-item
           ></router-link>
+          <router-link class="adminNavLink" to="/Admin/Workers"
+            ><v-list-item title="Workers" value="Workers"></v-list-item
+          ></router-link>
           <router-link class="adminNavLink" to="/Admin/AdminReservations"
             ><v-list-item
               title="AdminReservations"

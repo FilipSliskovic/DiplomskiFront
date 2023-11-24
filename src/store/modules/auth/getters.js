@@ -2,15 +2,18 @@ export default {
   userId(state) {
     return state.UserId;
   },
-  IsSuperUser(state)
-  {
-    if(state.IsSuperUser == "True")
-    {
-      return true
+  IsSuperUser(state) {
+    if (state.IsSuperUser == "True") {
+      return true;
+    } else {
+      return false;
     }
-    else
-    {
-      return false
+  },
+  IsWorker(state) {
+    if (state.IsSuperUser == "False" && state.UseCases.includes(20)) {
+      return true;
+    } else {
+      return false;
     }
   },
   Token(state) {

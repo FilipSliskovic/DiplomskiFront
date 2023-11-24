@@ -16,7 +16,7 @@
     <router-link to="/Reservations"> <v-tab> Reservations </v-tab></router-link>
 
     <router-link to="/Orders">
-      <v-tab v-if="IsSuperUser"> My Orders </v-tab></router-link
+      <v-tab v-if="IsSuperUser || IsWorker"> My Orders </v-tab></router-link
     >
 
     <router-link to="/Admin">
@@ -44,6 +44,9 @@ export default {
     },
     IsSuperUser() {
       return this.$store.getters.IsSuperUser;
+    },
+    IsWorker() {
+      return this.$store.getters.IsWorker;
     },
   },
 };

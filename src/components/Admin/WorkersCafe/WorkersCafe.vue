@@ -120,7 +120,7 @@ export default {
     getUsers() {
       var that = this;
       axios
-        .get("/api/Users", {
+        .get("/api/Worker", {
           headers: { Authorization: "Bearer " + this.$store.getters.Token },
         })
         .then((response) => {

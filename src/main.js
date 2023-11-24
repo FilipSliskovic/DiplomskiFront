@@ -24,6 +24,7 @@ import WorkersCafe from "./components/Admin/WorkersCafe/WorkersCafe.vue";
 import SuperUsers from "./components/Admin/SuperUsers/SuperUsers.vue";
 import Reservation from "./components/Reservation/Reservation.vue";
 import AdminReservations from "./components/Admin/Reservations/AdminReservations.vue";
+import Workers from "./components/Admin/Workers/Workers.vue";
 import store from "./store/index.js";
 
 const router = createRouter({
@@ -53,6 +54,7 @@ const router = createRouter({
         { path: "SuperUsers", component: SuperUsers },
         { path: "UseCaseLogs", component: UseCaseLogs },
         { path: "AdminReservations", component: AdminReservations },
+        { path: "Workers", component: Workers },
       ],
       meta: { IsSuperUser: true },
     },

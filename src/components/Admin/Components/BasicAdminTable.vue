@@ -263,7 +263,7 @@ export default {
       ItemToUpdate: null,
       DateFrom: moment().startOf("month").format("YYYY-MM-DD"),
       DateTo: moment().endOf("month").format("YYYY-MM-DD"),
-      itemsPerPage: this.ParItemsPerPage,
+      itemsPerPage: 10,
       keys: Object.keys(this.parentData),
       keyword: "",
       // headers: [

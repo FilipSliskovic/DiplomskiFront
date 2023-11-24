@@ -16,7 +16,7 @@ export default {
   },
   data: () => ({
     serverData: null,
-    itemsPerPage: 0,
+    itemsPerPage: 10,
 
     setupProps: {
       Url: "http://localhost:5000/api/Orders",
