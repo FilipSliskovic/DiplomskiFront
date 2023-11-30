@@ -79,8 +79,13 @@
   <v-container>
     <v-row class="text-center" align="center">
       <v-col cols="12" class="mb-5">
-        <h3>About us</h3>
-        <h2>Sve pocinje od sna</h2>
+        <h1>Cofix</h1>
+      </v-col>
+
+      <v-col cols="12" class="mb-5">
+        <h2>About us</h2>
+        <v-divider class="border-opacity-100" color="info"></v-divider>
+        <h3 class="mt-4">Sve pocinje od sna</h3>
         <p>
           Guided by the vision to meet tradition and innovation and create the
           unique pleasure of drinking one of the most popular beverages in the
@@ -91,7 +96,9 @@
         </p>
       </v-col>
       <v-col>
-        <v-row justify="space-between">
+        <h2>Blog</h2>
+        <v-divider class="border-opacity-100" color="info"></v-divider>
+        <v-row justify="space-between mt-4">
           <v-card v-for="card in cardData" :key="card" class="text-white mt-4">
             <div class="imageGradient-overlay-container">
               <v-img
@@ -134,6 +141,30 @@ export default {
 
   data: () => ({
     cardData: [
+      {
+        cardTitle: "Locations",
+        cardImg: "HomeImageWork.jpg",
+        cardText: "Find our locations",
+        cardLink: "/Cafe",
+      },
+      {
+        cardTitle: "Locations",
+        cardImg: "HomeImageWork.jpg",
+        cardText: "Find our locations",
+        cardLink: "/Cafe",
+      },
+      {
+        cardTitle: "Locations",
+        cardImg: "HomeImageWork.jpg",
+        cardText: "Find our locations",
+        cardLink: "/Cafe",
+      },
+      {
+        cardTitle: "Locations",
+        cardImg: "HomeImageWork.jpg",
+        cardText: "Find our locations",
+        cardLink: "/Cafe",
+      },
       {
         cardTitle: "Locations",
         cardImg: "HomeImageWork.jpg",

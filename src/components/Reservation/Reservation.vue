@@ -38,7 +38,7 @@
                 <v-select
                   label="Table"
                   :items="this.filteredTables"
-                  item-title="name"
+                  item-title="NameSeats"
                   v-model="SelectedTable"
                   return-object
                 >
@@ -105,6 +105,7 @@ export default {
   mounted() {
     this.GetReservations();
   },
+
   computed: {
     filteredTables() {
       if (!this.SelectedCafe) {
@@ -112,7 +113,10 @@ export default {
       }
       return this.Tables.filter(
         (table) => table.cafeName === this.SelectedCafe.name
-      );
+      ).map((table) => ({
+        ...table,
+        NameSeats: `Name: ${table.name}, Seats: ${table.seats}`,
+      }));
     },
   },
 
@@ -126,6 +130,24 @@ export default {
         .then((response) => {
           that.Reservations = response.data.data;
           console.log(that.Reservations);
+
+          that.Reservations = that.Reservations.map((order) => {
+            const date = new Date(order.reservationDateTime);
+            // console.log(date);
+            const options = {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              //timeZoneName: "short",
+            };
+
+            const formattedDate = date.toLocaleString("sr-RS", options);
+
+            return { ...order, reservationDateTime: formattedDate };
+          });
         });
     },
     GetNewReservationData() {

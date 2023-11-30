@@ -43,7 +43,7 @@
       </v-col>
       <v-col cols="12" sm="8" md="6">
         <v-select
-          label="Amount"
+          label="Seats"
           :items="this.SeatsOptions"
           v-model="ItemToUpdate.seats"
         ></v-select>
@@ -119,7 +119,7 @@ export default {
           {
             name: this.tableName,
             cafeId: this.selectedCafe,
-            seats: this.SelectedSeats,
+            Seats: this.SelectedSeats,
           },
           {
             headers: { Authorization: "Bearer " + this.$store.getters.Token },

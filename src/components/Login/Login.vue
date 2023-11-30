@@ -1,11 +1,11 @@
 <template>
   <v-form>
     <v-container>
-      <v-col offset="3" cols="5">
+      <v-col offset="3" cols="5" v-if="this.mode == 'signup'">
         <v-text-field v-model="formObj.name" label="Name" filled></v-text-field>
       </v-col>
 
-      <v-col offset="3" cols="5">
+      <v-col offset="3" cols="5" v-if="this.mode == 'signup'">
         <v-text-field
           v-model="formObj.lastname"
           label="Lastname"
@@ -34,7 +34,6 @@
           {{ submitButtonCaption }}
         </v-btn>
         <v-btn @click="switchMode">{{ switchModeButtonCaption }}</v-btn>
-        
       </v-col>
     </v-container>
   </v-form>
@@ -76,25 +75,19 @@ export default {
   },
 
   methods: {
-    
-    
-
     submitForm() {
-      try{
+      try {
         if (this.mode == "login") {
-        this.$store.dispatch("login", this.formObj);
-        this.$router.replace("/");
-      } else {
-        this.$store.dispatch("signup", this.formObj);
+          this.$store.dispatch("login", this.formObj);
+          this.$router.replace("/");
+        } else {
+          this.$store.dispatch("signup", this.formObj);
+        }
+      } catch (err) {
+        alert(err.message);
       }
-      }
-      catch(err){
-        alert(err.message)
-      }
-     
     },
 
-    
     switchMode() {
       if (this.mode == "login") {
         this.mode = "signup";

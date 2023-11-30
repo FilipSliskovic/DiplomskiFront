@@ -90,6 +90,24 @@ export default {
           that.products = response.data.data;
           that.itemsPerPage = response.data.itemsPerPage;
           console.log(that.products);
+
+          that.products = that.products.map((order) => {
+            const date = new Date(order.reservationDateTime);
+            // console.log(date);
+            const options = {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              //timeZoneName: "short",
+            };
+
+            const formattedDate = date.toLocaleString("sr-RS", options);
+
+            return { ...order, reservationDateTime: formattedDate };
+          });
         })
         .catch((error) => {
           console.error(error);

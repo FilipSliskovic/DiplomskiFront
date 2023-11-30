@@ -9,7 +9,7 @@
     @GetUpdateItem="this.GetUpdateItem"
   >
     <template #newItemSlot>
-      <v-col cols="12" sm="7" md="5">
+      <v-col cols="12" sm="9" md="7">
         <v-select
           label="User"
           :items="this.Users"

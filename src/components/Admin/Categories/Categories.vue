@@ -151,7 +151,10 @@ export default {
             seats: this.ItemToUpdate.ParentCategoryId,
           },
           {
-            headers: { Authorization: "Bearer " + this.$store.getters.Token },
+            headers: {
+              Authorization: "Bearer " + this.$store.getters.Token,
+              //"Content-Type": "multipart/form-data",
+            },
           }
         )
         .then((response) => {

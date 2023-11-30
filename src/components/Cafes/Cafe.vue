@@ -6,7 +6,7 @@
         <hr />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="ma-4">
       <CafeCard v-for="cafe in this.cafes" :key="cafe.id" :cafe="cafe">
       </CafeCard>
     </v-row>
