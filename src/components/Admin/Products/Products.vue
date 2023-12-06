@@ -111,12 +111,18 @@ export default {
     },
     CreateNewProduct() {
       // console.log(this.NewProduct);
-
+      console.log(this.NewProduct);
+      var data = new FormData();
+      data.append("Image", this.NewProduct.Image[0]);
+      data.append("name", this.NewProduct.name);
+      data.append("description", this.NewProduct.description);
+      data.append("price", this.NewProduct.price);
+      data.append("amount", this.NewProduct.amount);
+      data.append("CategoryId", this.NewProduct.CategoryId);
       axios
-        .post("/api/products", this.NewProduct, {
+        .post("/api/products", data, {
           headers: {
             Authorization: "Bearer " + this.$store.getters.Token,
-            "Content-Type": "multipart/form-data",
           },
         })
         .then((response) => {

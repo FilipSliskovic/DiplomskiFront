@@ -91,7 +91,7 @@
                             color="primary"
                             :title="menuItem.name"
                           ></v-toolbar>
-                          <v-carousel>
+                          <v-carousel v-if="this.menuItem.imageNames != null">
                             <v-carousel-item
                               v-for="imageName in menuItem.imageNames"
                               :key="imageName"

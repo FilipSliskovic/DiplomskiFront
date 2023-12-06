@@ -53,6 +53,7 @@ export default {
   methods: {
     getData() {
       var that = this;
+      console.log("asd");
       axios
         .get(this.setupProps.Url, {
           headers: { Authorization: "Bearer " + this.$store.getters.Token },

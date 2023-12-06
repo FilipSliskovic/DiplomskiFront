@@ -287,6 +287,13 @@ export default {
       headers: this.getHeaders(this.parentData),
     };
   },
+  watch: {
+    parentData(newVal) {
+      this.dataItems = newVal;
+      console.log("----------------------");
+      console.log(this.dataItems);
+    },
+  },
   methods: {
     initialize() {
       this.keyword = new String();

@@ -77,7 +77,7 @@
 
 <template>
   <v-container>
-    <v-row class="text-center" align="center">
+    <v-row class="text-center mb-5" align="center">
       <v-col cols="12" class="mb-5">
         <h1>Cofix</h1>
       </v-col>
@@ -102,6 +102,7 @@
           <v-card v-for="card in cardData" :key="card" class="text-white mt-4">
             <div class="imageGradient-overlay-container">
               <v-img
+                height="300px"
                 class="imageGradient"
                 cover
                 :width="400"
@@ -112,15 +113,21 @@
 
                 <!-- Card content -->
                 <div class="card-content">
-                  <v-card-title class="text-white">
+                  <v-card-title
+                    class="text-white w-75"
+                    style="white-space: normal"
+                  >
                     {{ card.cardTitle }}
                   </v-card-title>
 
-                  <v-card-text class="text-white">
+                  <v-card-text
+                    class="text-white w-75"
+                    style="white-space: normal"
+                  >
                     {{ card.cardText }}
                   </v-card-text>
-                  <hr class="cardHR" />
-                  <router-link :to="card.cardLink">
+                  <hr class="cardHR" v-if="card.cardLink" />
+                  <router-link :to="card.cardLink" v-if="card.cardLink">
                     <v-btn class="ml-4 mt-8" variant="outlined">{{
                       card.cardTitle
                     }}</v-btn>
@@ -148,46 +155,46 @@ export default {
         cardLink: "/Cafe",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: "Cofix Wins Best Coffee in Local Poll",
+        cardImg: "Blog2.jpg",
+        cardText:
+          "We're thrilled to announce that Cofix has been voted the best coffee spot in town!",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: " Cofix Introduces Contactless Ordering",
+        cardImg: "Blog3.jpg",
+        cardText:
+          "Browse our menu, and place your order from the comfort of your seat. Enjoy your favorite brew without missing a beat!",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: "A Journey Through Unique Brews",
+        cardImg: "Blog4.jpg",
+        cardText:
+          "Join us in celebrating the diverse and complex profiles that make each cup a journey of its own.",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: "Cofix Hosts Local Artisan Market",
+        cardImg: "Blog5.jpeg",
+        cardText:
+          "We believe in supporting local talent, and what better way than hosting an Artisan Market right here at [Coffee Shop Name]!",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: "Cofix Launches Coffee Tasting Workshops",
+        cardImg: "Blog6.jpg",
+        cardText:
+          "[Coffee Shop Name] is excited to introduce our Coffee Tasting Workshops.",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: "Cofix Initiates 'Beans for a Cause' Campaign",
+        cardImg: "blog 7.jpg",
+        cardText:
+          "Percentage of proceeds from select drinks will go towards supporting a local charity.",
       },
       {
-        cardTitle: "Locations",
-        cardImg: "HomeImageWork.jpg",
-        cardText: "Find our locations",
-        cardLink: "/Cafe",
+        cardTitle: "Ethical Coffee Sourcing",
+        cardImg: "blog 8.jpg",
+        cardText:
+          "Learn about our partnerships with sustainable coffee producers and the fair trade practices we embrace,",
       },
     ],
     ecosystem: [
@@ -263,7 +270,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(48, 63, 159, 0.4), transparent);
+  background: linear-gradient(to right, rgba(48, 63, 159, 0.6), transparent);
 }
 
 .card-content {

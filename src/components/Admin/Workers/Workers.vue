@@ -66,7 +66,7 @@ export default {
       AllowUpdate: true,
       AllowDateSearch: false,
       AllowSearch: true,
-      formTitle: "SuperUsers",
+      formTitle: "Workers",
       AllowCreate: true,
     },
   }),

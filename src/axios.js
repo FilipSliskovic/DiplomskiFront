@@ -20,7 +20,11 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     store.dispatch("hideLoader");
-    if (response.config.method === "post") {
+    if (
+      response.config.method === "post" ||
+      response.config.method === "put" ||
+      response.config.method === "delete"
+    ) {
       store.dispatch("showAlert", {
         Message: "Success!",
         AlertType: "success",
@@ -31,6 +35,13 @@ instance.interceptors.response.use(
   },
   (error) => {
     store.dispatch("hideLoader");
+    error.response.data.errors.forEach((e) => {
+      store.dispatch("showAlert", {
+        Message: e.error,
+        AlertType: "error",
+      });
+    });
+
     return Promise.reject(error);
   }
 );
